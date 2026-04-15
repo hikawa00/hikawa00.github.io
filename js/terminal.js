@@ -23,6 +23,12 @@ function createTerminalInput() {
   const terminal = document.createElement('div');
   terminal.id = 'terminal-input';
 
+  // ===== 默认提示文字 =====
+  const defaultHint = document.createElement('div');
+  defaultHint.className = 'output-hint';
+  defaultHint.textContent = 'Welcome. 输入 help 查看命令，/ai <消息> 开始聊天';
+  defaultHint.style.cssText = 'color: #444; font-size: 12px; line-height: 1.6;';
+
   // ===== 三态布局：展开 / 收起输出 / 收起至右 =====
   // 顶部工具栏（按钮行）
   const header = document.createElement('div');
@@ -187,6 +193,7 @@ function createTerminalInput() {
   inputRow.appendChild(collapseRightBtn);
 
   terminal.appendChild(header);
+  outputArea.appendChild(defaultHint);
   terminal.appendChild(outputArea);
   terminal.appendChild(inputRow);
   document.body.appendChild(terminal);
@@ -355,6 +362,10 @@ async function chatWithAI(message) {
 
 // 在终端输出区显示一行
 function showOutput(text, cls) {
+  // 首次输出时清除默认提示
+  const hint = document.querySelector('.output-hint');
+  if (hint) hint.remove();
+
   // 优先走 DOM 输出（访客可见）
   const terminal = document.getElementById('terminal-input');
   let outputDiv = document.getElementById('terminal-output');

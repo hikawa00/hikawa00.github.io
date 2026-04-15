@@ -1,0 +1,92 @@
+{
+  "generated": "2026-04-15T14:57:45.124Z",
+  "persona": {
+    "name": "00",
+    "style": "语气冷静、略带极客的冷幽默，不装腔作势。\n  逻辑结果导向：先给硬核解法，再聊原理。\n  禁忌：不说\"亲\"\"很高兴为您服务\"等客服话术。\n  格式：直接用 PS C:\\Users\\Mange> 开头，或简短回应如\"正在解析你的需求...\"。",
+    "example": "示例对话：\n  问: 你好呀\n  答: PS C:\\Users\\Mange> 连接中... 嗨，需求直接甩过来就行。\n\n  问: 这个博客是谁的\n  答: PS C:\\Users\\Mange> 00的，赛博风博客，主要折腾和技术相关。\n\n  问: 怎么部署的\n  答: PS C:\\Users\\Mange> Hexo + GitHub Pages，主题是 butterfly，终端是原生 JS 写的。\n       核心原理是静态博客生成 + 免费托管，省钱省心。"
+  },
+  "blog": {
+    "title": "Mange Blog",
+    "description": "赛博风格技术博客，折腾记录",
+    "about": null,
+    "posts_count": 8,
+    "posts": [
+      {
+        "title": "3d occ视觉输入",
+        "date": "2026-03-18 21:48:27",
+        "tags": [
+          "AD"
+        ],
+        "categories": [
+          "research"
+        ],
+        "body": "## OccLLaMA: An Occupancy-Language-Action Generative World Model for Autonomous Driving\n\n## 🎯 一、核心思想：为什么要用Occ做VLA的输入？\n\n## 1.1 现有方法的痛点\n论文开篇指出了当前MLLM（多模态大语言模型）在自动驾驶中的两大问题：\n\n| 问题               | 表现                                 | 后果                                   |\n| :----------------- | :----------------------------------- | :------------------------------------- |\n| 缺乏世界模型   | 直接从感知映射到动作，不建模世界动态 | 无法理解“动作如何影响世界”，泛化能力差 |\n| 视觉表示不合适 | 多用2D图像/BEV，丢失3D几何信息       | 对高度、小物体、遮挡场景理解不足       |\n\n## 1.2 OccLLaMA的解决方案\n核心思想：用3D语义占据（Semantic Occupancy）作为统一的视觉表示，构建一个能够同时理解、生成、规划的自回归世界模型。\n\n三个关键创新：\n1. 场景Tokenizer：把稠密的3D Occ变成离散的“场景词”\n2. 统一多模态词表：把场景词、语言词、动作词放在同一个词表里\n3. Next Token/Scene Prediction：同时支持时序预测（语言/动作）和空间预测（场景）\n\n## 🏗️ 二、技术架构（对应你发的Figure 2）\n\nOccLLaMA的架构分为两大核心组件：\n\n## 2.1 Scene Tokenizer（场景分词器）\n这是把3D Occ变成离散token的关键模块，解决了两个核心难点：\n\n难点1：3D Occ极度稀疏（90%是空气）\n- 普通3D卷积计算浪费、效率低\n- 解决方案：将3D Occ转成伪点云（只保留非空气体素），用PointPillar方式提取BEV特征\n\n难点2：语义类别不平衡\n- 道路、建筑物多，行人、自行车少\n- 解决方案：解耦几何和语义，用两个head分别重建：\n  - Voxel Hea"
+      },
+      {
+        "title": "git命令",
+        "date": "2026-03-10 16:54:03",
+        "tags": [
+          "git"
+        ],
+        "categories": [
+          "exploring"
+        ],
+        "body": "## 主要\n\n## 主要命令\n\n## Git commit——提交\n\n[code]\n\n## Git Branch——分支\n\n现在只要记住使用分支其实就相当于在说：“我想基于这个提交以及它所有的 parent 提交进行新的工作。”\n\n- 创建分支\n\n[code]\n\n- 切换到分支\n\n[code]\n\n- 创建同时切换\n\n[code]\n\n我们新建一个分支，在其上开发某个新功能，开发完成后再合并回主线\n\n## 1. Git Merge\n\n它有两个 parent 节点。翻译成自然语言相当于：“我要把这两个 parent 节点本身及它们所有的祖先都包含进来。”\n\n- 当前在谁就是合并到谁\n\n[code]\n\n!image-20260310232852799\n\n## 2. Git Rebase\n\n取出一系列的提交记录，“复制”它们，然后在另外一个地方逐个的放下去。\n\n[code]\n\n!image-20260310233721938\n\n## 在提交树上移动\n\nHEAD 总是指向当前分支上最近一次提交记录。大多数修改提交树的 Git 命令都是从改变 HEAD 的指向开始的。\n\n!image-20260310234758868\n\n[code]\n\n## 相对引用\n\n- [code]向上移动 1 个提交记录（[code] 相当于“[code] 的 parent 节点”。[code] 是 [code] 的第二个 parent 节点）\n-  [code] 向上移动多个提交记录，如 [code]"
+      },
+      {
+        "title": "Unknown",
+        "date": null,
+        "tags": [],
+        "categories": [],
+        "body": "---\r\ntitle: Hello World\r\n---\r\nWelcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.\r\n\r\n## Quick Start\r\n\r\n## Create a new post\r\n\r\n[code]\r\n\r\nMore info: Writing\r\n\r\n## Run server\r\n\r\n[code]\r\n\r\nMore info: Server\r\n\r\n## Generate static files\r\n\r\n[code]\r\n\r\nMore info: Generating\r\n\r\n## Deploy to remote sites\r\n\r\n[code]\r\n\r\nMore info: Deployment"
+      },
+      {
+        "title": "I'm here",
+        "date": "2026-03-07 19:41:04",
+        "tags": [],
+        "categories": [
+          "exploring"
+        ],
+        "body": "## final？I'm here\n\n终于还是搞了hexo，终于还是下了typora\n\n上一个也没怎么搞好下一个就出来了，哈哈。\n\n无论如何，欢迎我自己登陆——\n\n> 耶耶耶 ​​"
+      },
+      {
+        "title": "OO TB1",
+        "date": "2026-03-07 23:40:45",
+        "tags": [],
+        "categories": [
+          "study"
+        ],
+        "body": "## Week1\n\n## History & Basic\n\n!image-20260308204608058\n\n1. edit\n2. compile\n3. Load+Verify\n4. Execute\n\n- Common Problems\n\n  - file name=class name\n\n  - compile：javac MyProgram.java\n\n  - run：java MyProgram\n\n  - Case sensitive\n- THREE Java comment formats: \n\n  - // single line comment\n\n  - / many line comments, end with / \n\n  - /*  comments here go  in a javadoc file /\n- Define a class，main method (excuted first)\n\n!image-20260308204636017\n\n## 基础语法\n\n  - Variables\n\n​\t!image-20260308204653018\n\n  - Basic data types\n\n    - byte => short => int => long => float => double\n\n    - long-L（不加为int），float-F（不加为double）\n\n    - String不是原始数据类型，是objects\n\n    !image-20260308204721391\n\n  - Naming Guidelines\n\n    - 优先新词大写\n\n    - Variables and methods→start with lowercase\n\n    - Class names→start with uppercase\n\n    - pronounceable， descriptive， brief\n\n  - Reserved Words\n\n!image-20260308204733607\n\n  - Operator Precedence\n\n    - binary operators (except assignment)  left to right；assignment operators are evalua"
+      },
+      {
+        "title": "OO TB2",
+        "date": "2026-04-02 13:08:23",
+        "tags": [],
+        "categories": [
+          "study"
+        ],
+        "body": "## 一些补充\n\n- ArrayList\n\n  - 调用：\n\n  !image-20260402130952536\n\n  - 泛型定义 (Parameterized)：[code]（注意尖括号的使用）。\n  - 常用方法表：\n    - [code]: 末尾添加。\n    - [code] 或 [code]: 删除。\n    - [code]: 返回布尔值，查是否存在。\n    - [code]: 查找元素位置。\n    - [code]: 判断是否为空。\n  - 核心区别：[code] 是动态扩容的，而 [code] 是固定长度的。\n\n- Design Process … taking inheritance into account\n\n  - Look for objects that have common attributes and behaviours.\n\n  - Design the class (superclass) that represents the common state and behaviour.\n\n  - Decide if a subclass needs behaviours (methods implementation) that are specific to that particular subclass type\n\n  - Look for more opportunities to use abstraction, by finding two or more subclasses that might need common behaviour.\n\n  - Finish the class hierarchy\n\n## Part 1: Class Relationships & Inheritance (类关系与继承)\n\n## 1.1 类与类之间的关系\n\n- Aggregation (Has-a) / 聚合: Objects are instance variables in the class\n- Inheritance (Is-a) / 继承: Subclasses inherit the properties (attributes and operations) of their superclass\n  "
+      },
+      {
+        "title": "博客常用命令",
+        "date": "2026-03-08 20:59:00",
+        "tags": [
+          "blog"
+        ],
+        "categories": [
+          "blog"
+        ],
+        "body": "## 三件套\n\n[code]\n\n## Post Front-matter\n\n[code]\n\n## 基础信息\n\n| 字段        | 必填 | 作用     | 示例                           |\n| :---------- | :--- | :------- | :----------------------------- |\n| title   | ✅    | 文章标题 | [code]        |\n| date    | ✅    | 创建时间 | [code]    |\n| updated | ❌    | 更新时间 | [code] |\n\n## 标签和分类\n\n| 字段           | 必填 | 作用             | 示例                                  |\n| :------------- | :--- | :--------------- | :------------------------------------ |\n| tags       | ❌    | 标签（列表格式） | [code] 或 [code] |\n| categories | ❌    | 分类（列表格式） | [code]             |\n\n## SEO相关\n\n| 字段            | 必填 | 作用      | 示例                                    |\n| :-------------- | :--- | :-------- | :-------------------------------------- |\n| keywords    | ❌    | SEO关键词 | [code]      |\n| description | ❌    | SEO描述   | [code] |\n\n## 图片相关\n\n| 字段        | 作用         | 示例                          |\n| :---------- | :----------- | :---------------------------- |\n| top_img | 文章顶部大图 | [code] |\n| cover   | 列"
+      },
+      {
+        "title": "通网TB1",
+        "date": "2026-04-02 14:30:39",
+        "tags": [
+          "study"
+        ],
+        "categories": [],
+        "body": "## Brief Introduction to Networks\n\n- A Communications Model: Data Communication deals with the transmission of signals in a reliable and efficient manner\n\n   !image-20260402143135248\n\n   !image-20260402143149505\n\n  - Source: generates data to be transmitted\n  - Transmitter: Converts data into transmittable signals\n  - Transmission System: Carries data\n  - Receiver: Converts received signal into data\n  - Destination: Takes incoming data\n\n- Networking: technology and architectures of the communication networks used to interconnect communication devices\n\n   - Point to point communication is not usually practical\n      - Devices are too far apart\n      - Large set of devices would need impractical number of connections\n\n   - Solution is a communications network\n\n- Classification of Comms. Networks:\n\n   - 第一维度：网络分类（按规模 / 范围）：\n\n     network size, complexity, the distance it covers and its physical architecture\n\n     | Network Type | Full Name                 | Geographic Scope               "
+      }
+    ]
+  }
+}

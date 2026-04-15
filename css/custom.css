@@ -245,70 +245,191 @@ body {
 .recent-post-item:nth-child(9) { animation-delay: 0.9s; }
 .recent-post-item:nth-child(10) { animation-delay: 1.0s; }
 
-/* 底部交互终端 - 整体容器 */
+/* ============================================
+   底部交互终端 - 三态布局
+   状态1: 展开（默认）- 输出区+输入行
+   状态2: 收起输出区（output-collapsed）- 只有输入行
+   状态3: 收起至右（collapsed-right）- 窄条，可竖向拖动
+   ============================================ */
 #terminal-input {
   position: fixed;
-  bottom: 0; /* 默认贴底 */
+  bottom: 0;
   right: 0;
   background: var(--terminal-bg);
   border: 1px dashed var(--terminal-border);
-  padding: 10px 15px;
+  font-family: var(--terminal-font);
+  z-index: 2000;
+  width: 400px;
+  max-height: 480px;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s, bottom 0.3s;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+/* ===== 顶部工具栏 ===== */
+#terminal-header {
   display: flex;
   align-items: center;
-  font-family: var(--terminal-font);
-  z-index: 2000; /* 确保在最上层 */
-  width: 400px;
-  /* 增加 bottom 的动画，让拖拽松开后如果有位置修正会很平滑 */
-  transition: transform 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.1), bottom 0.3s;
-  box-sizing: border-box;
-  user-select: none; /* 防止拖拽时选中文字 */
+  background: var(--terminal-bg);
+  border-bottom: 1px dashed var(--terminal-border);
+  flex-shrink: 0;
+  height: 36px;
+  cursor: grab;
 }
 
-/* 缩回状态：向右平移 */
-#terminal-input.collapsed {
-  transform: translateX(calc(400px - 50px));
-}
-
-.terminal-collapse-btn {
-  order: -1; 
+#toggle-output-btn {
   background: transparent;
-  border: 1px dashed var(--terminal-border);
+  border: none;
   color: var(--terminal-text);
-  width: 32px;
-  height: 32px;
+  font-size: 12px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: grab; /* 缩回时提示可以抓取 */
+  cursor: pointer;
   flex-shrink: 0;
-  margin-right: 15px;
 }
 
-.terminal-collapse-btn:active {
-  cursor: grabbing; /* 抓取时的样式 */
-}
-
-/* 移动端适配：防止拖动时触发页面滚动 */
-#terminal-input.collapsed .terminal-collapse-btn {
-  touch-action: none;
-}
-
-.terminal-collapse-btn:hover {
+#toggle-output-btn:hover {
   background: var(--terminal-accent);
   color: var(--terminal-bg);
-  border-color: var(--terminal-accent);
 }
 
-/* 路径提示符 */
+#collapse-right-btn {
+  background: transparent;
+  border: none;
+  border-left: 1px dashed var(--terminal-border);
+  color: var(--terminal-text);
+  font-size: 14px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+#collapse-right-btn:hover {
+  background: var(--terminal-accent);
+  color: var(--terminal-bg);
+}
+
+#terminal-drag-handle {
+  flex: 1;
+  height: 100%;
+  display: none;
+  align-items: center;
+  padding-left: 10px;
+  color: var(--terminal-border);
+  font-size: 11px;
+  cursor: ns-resize;
+  user-select: none;
+}
+
+#terminal-drag-handle::before {
+  content: '⋮⋮';
+  letter-spacing: 2px;
+}
+
+/* ===== 输出区 ===== */
+#terminal-output {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 15px;
+  min-height: 80px;
+  font-size: 13px;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== 输入行 ===== */
+#terminal-input-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  border-top: 1px dashed var(--terminal-border);
+  flex-shrink: 0;
+}
+
+/* 输入行内的收起至右按钮 */
+#terminal-input-row #collapse-right-btn {
+  border-left: none;
+  border-top: none;
+  border-bottom: none;
+  border-right: 1px dashed var(--terminal-border);
+}
+
+/* ===== 状态2: 收起输出区 ===== */
+#terminal-input.output-collapsed #terminal-output {
+  display: none;
+}
+
+#terminal-input.output-collapsed #toggle-output-btn {
+  transform: rotate(180deg);
+}
+
+/* ===== 状态3: 收起至右 ===== */
+#terminal-input.collapsed-right {
+  width: 36px;
+  height: 36px !important;
+  max-height: 36px;
+  min-height: 0;
+  bottom: 0;
+  top: auto;
+  overflow: hidden;
+  border: 1px dashed var(--terminal-border);
+  border-right: none;
+  border-bottom: none;
+}
+
+#terminal-input.collapsed-right #terminal-header {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  border-bottom: none;
+  border-right: none;
+  height: 100%;
+  width: 100%;
+  cursor: ns-resize;
+  background: var(--terminal-bg);
+}
+
+/* 收起至右时，header里只显示拖动条+展开按钮 */
+#terminal-input.collapsed-right #toggle-output-btn,
+#terminal-input.collapsed-right #collapse-right-btn {
+  display: none;
+}
+
+#terminal-input.collapsed-right #terminal-drag-handle {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  writing-mode: vertical-rl;
+  padding: 4px 0;
+  font-size: 11px;
+  align-items: center;
+  justify-content: center;
+}
+
+#terminal-input.collapsed-right #terminal-output,
+#terminal-input.collapsed-right #terminal-input-row {
+  display: none;
+}
+
+/* ===== 路径提示符 ===== */
 #terminal-input .terminal-prompt-label {
   color: var(--terminal-accent);
   margin-right: 10px;
   flex-shrink: 0;
   white-space: nowrap;
-  transition: opacity 0.3s;
 }
 
-/* 输入框 */
+/* ===== 输入框 ===== */
 #terminal-input input {
   flex: 1;
   background: transparent;
@@ -317,17 +438,9 @@ body {
   font-family: var(--terminal-font);
   font-size: 14px;
   outline: none;
-  caret-color: var(--cursor-blink);
-  transition: opacity 0.3s;
+  caret-color: var(--terminal-accent);
+  padding: 0;
 }
-
-/* 收起时隐藏文字内容，防止干扰布局 */
-#terminal-input.collapsed .terminal-prompt-label,
-#terminal-input.collapsed input {
-  opacity: 0;
-  pointer-events: none;
-}
-
 
 #terminal-input input::placeholder {
   color: #555;

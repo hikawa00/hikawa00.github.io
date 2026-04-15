@@ -23,6 +23,35 @@ function createTerminalInput() {
   const terminal = document.createElement('div');
   terminal.id = 'terminal-input';
 
+  // ===== 三态布局：展开 / 收起输出 / 收起至右 =====
+  // 顶部工具栏（按钮行）
+  const header = document.createElement('div');
+  header.id = 'terminal-header';
+
+  // 收起输出区按钮（📄/📜）
+  const toggleOutputBtn = document.createElement('button');
+  toggleOutputBtn.id = 'toggle-output-btn';
+  toggleOutputBtn.innerHTML = '&#x25BC;'; // ▼ 向下表示可折叠
+  toggleOutputBtn.title = '收起聊天记录';
+
+  // 收起至右按钮（→）
+  const collapseRightBtn = document.createElement('button');
+  collapseRightBtn.id = 'collapse-right-btn';
+  collapseRightBtn.innerHTML = '&#x276F;';
+  collapseRightBtn.title = '收起终端';
+
+  // 拖动手柄（藏在顶部，当整体收起至右时变成拖动条）
+  const dragHandle = document.createElement('div');
+  dragHandle.id = 'terminal-drag-handle';
+
+  // 输出区
+  const outputArea = document.createElement('div');
+  outputArea.id = 'terminal-output';
+
+  // 输入行
+  const inputRow = document.createElement('div');
+  inputRow.id = 'terminal-input-row';
+
   const promptLabel = document.createElement('span');
   promptLabel.className = 'terminal-prompt-label';
   promptLabel.textContent = 'PS >';
@@ -33,6 +62,89 @@ function createTerminalInput() {
   input.placeholder = '输入命令...';
   input.autocomplete = 'off';
 
+  // ---------- 拖拽逻辑（竖向/横向共用） ----------
+  let isDraggingH = false; // 横向拖（展开状态）
+  let isDraggingV = false; // 竖向拖（收起至右状态）
+  let startX, startY, startBottom, startRight;
+  let hasMoved = false;
+  const MOVE_THRESHOLD = 5;
+
+  // === 竖向拖拽：整体收起至右时，拖动上下位置 ===
+  dragHandle.addEventListener('mousedown', function(e) {
+    if (!terminal.classList.contains('collapsed-right')) return;
+    isDraggingV = true;
+    hasMoved = false;
+    startY = e.clientY;
+    startBottom = parseInt(window.getComputedStyle(terminal).bottom);
+    terminal.style.transition = 'none';
+    e.stopPropagation();
+  });
+
+  // === 横向拖拽：展开状态可横向拖动 ===
+  terminal.addEventListener('mousedown', function(e) {
+    if (!terminal.classList.contains('collapsed-right')) {
+      isDraggingH = true;
+      hasMoved = false;
+      startX = e.clientX;
+      startRight = parseInt(window.getComputedStyle(terminal).right);
+      terminal.style.transition = 'none';
+    }
+  });
+
+  window.addEventListener('mousemove', function(e) {
+    if (isDraggingV) {
+      const deltaY = startY - e.clientY;
+      if (Math.abs(deltaY) > MOVE_THRESHOLD) hasMoved = true;
+      const newBottom = Math.max(0, Math.min(window.innerHeight - 50, startBottom + deltaY));
+      terminal.style.bottom = newBottom + 'px';
+    }
+    if (isDraggingH) {
+      const deltaX = e.clientX - startX;
+      if (Math.abs(deltaX) > MOVE_THRESHOLD) hasMoved = true;
+      const newRight = Math.max(0, startRight - deltaX);
+      terminal.style.right = newRight + 'px';
+    }
+  });
+
+  window.addEventListener('mouseup', function() {
+    if (isDraggingV) {
+      isDraggingV = false;
+      terminal.style.transition = 'bottom 0.3s';
+    }
+    if (isDraggingH) {
+      isDraggingH = false;
+      hasMoved = false;
+      terminal.style.transition = 'right 0.3s';
+    }
+  });
+
+  // === 收起至右 ===
+  collapseRightBtn.addEventListener('click', function(e) {
+    if (hasMoved) return;
+    terminal.classList.toggle('collapsed-right');
+    if (terminal.classList.contains('collapsed-right')) {
+      dragHandle.style.display = 'flex';
+    } else {
+      terminal.style.bottom = '0px';
+      terminal.style.right = '0px';
+    }
+  });
+
+  // === 收起至右状态下点击拖动条 → 展开 ===
+  dragHandle.addEventListener('click', function(e) {
+    if (!terminal.classList.contains('collapsed-right')) return;
+    terminal.classList.remove('collapsed-right');
+    terminal.style.bottom = '0px';
+    terminal.style.right = '0px';
+  });
+
+  // === 收起/展开输出区 ===
+  toggleOutputBtn.addEventListener('click', function(e) {
+    if (hasMoved) return;
+    terminal.classList.toggle('output-collapsed');
+  });
+
+  // 回车提交
   input.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
       const cmd = this.value.trim();
@@ -43,79 +155,40 @@ function createTerminalInput() {
     }
   });
 
-  const collapseBtn = document.createElement('button');
-  collapseBtn.className = 'terminal-collapse-btn';
-  collapseBtn.innerHTML = '&#x276F;'; 
-  collapseBtn.title = '收起终端';
-
-  // --- 拖拽逻辑变量 ---
-  let isDragging = false;
-  let startY;
-  let startBottom;
-  let moveThreshold = 5; // 移动超过5像素判定为拖拽
-  let hasMoved = false;
-
-  // 鼠标按下
-  collapseBtn.addEventListener('mousedown', function(e) {
-    if (!terminal.classList.contains('collapsed')) return; // 只在缩回时可拖动
-    isDragging = true;
-    hasMoved = false;
-    startY = e.clientY;
-    startBottom = parseInt(window.getComputedStyle(terminal).bottom);
-    terminal.style.transition = 'none'; // 拖拽时关闭动画，防止卡顿
-  });
-
-  // 鼠标移动
-  window.addEventListener('mousemove', function(e) {
-    if (!isDragging) return;
-    const deltaY = startY - e.clientY; // 向上拖 Y 减小，deltaY 为正
-    if (Math.abs(deltaY) > moveThreshold) hasMoved = true;
-    
-    let newBottom = startBottom + deltaY;
-    // 限制范围，不超出屏幕
-    newBottom = Math.max(0, Math.min(window.innerHeight - 50, newBottom));
-    terminal.style.bottom = newBottom + 'px';
-  });
-
-  // 鼠标松开
-  window.addEventListener('mouseup', function() {
-    if (!isDragging) return;
-    isDragging = false;
-    terminal.style.transition = 'transform 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.1), bottom 0.3s';
-  });
-
-  // 点击事件处理
-  collapseBtn.addEventListener('click', function(e) {
-    if (hasMoved) {
-        e.preventDefault();
-        return; // 如果拖动了，就不执行展开/收起
-    }
-    toggleTerminal();
-  });
-
-  // 移动端兼容
-  collapseBtn.addEventListener('touchstart', (e) => {
-    if (!terminal.classList.contains('collapsed')) return;
-    isDragging = true;
+  // 移动端竖向拖
+  dragHandle.addEventListener('touchstart', (e) => {
+    if (!terminal.classList.contains('collapsed-right')) return;
+    isDraggingV = true;
     hasMoved = false;
     startY = e.touches[0].clientY;
     startBottom = parseInt(window.getComputedStyle(terminal).bottom);
     terminal.style.transition = 'none';
   });
   window.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
+    if (!isDraggingV) return;
     const deltaY = startY - e.touches[0].clientY;
-    if (Math.abs(deltaY) > moveThreshold) hasMoved = true;
+    if (Math.abs(deltaY) > MOVE_THRESHOLD) hasMoved = true;
     terminal.style.bottom = Math.max(0, Math.min(window.innerHeight - 50, startBottom + deltaY)) + 'px';
   });
   window.addEventListener('touchend', () => {
-    isDragging = false;
-    terminal.style.transition = 'transform 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.1), bottom 0.3s';
+    if (isDraggingV) {
+      isDraggingV = false;
+      terminal.style.transition = 'bottom 0.3s';
+    }
   });
 
-  terminal.appendChild(promptLabel);
-  terminal.appendChild(input);
-  terminal.appendChild(collapseBtn);
+  // 组装
+  header.appendChild(toggleOutputBtn);
+  header.appendChild(collapseRightBtn);
+  header.appendChild(dragHandle);
+
+  inputRow.appendChild(promptLabel);
+  inputRow.appendChild(input);
+  inputRow.appendChild(collapseRightBtn);
+
+  terminal.appendChild(header);
+  terminal.appendChild(outputArea);
+  terminal.appendChild(inputRow);
   document.body.appendChild(terminal);
 
   input.addEventListener('focus', () => terminal.style.borderColor = 'var(--terminal-accent)');
@@ -124,33 +197,23 @@ function createTerminalInput() {
 
 function toggleTerminal() {
   const terminal = document.getElementById('terminal-input');
-  const btn = document.querySelector('.terminal-collapse-btn');
   if (!terminal) return;
-
-  const isCollapsed = terminal.classList.toggle('collapsed');
-  btn.innerHTML = isCollapsed ? '&#x276E;' : '&#x276F;'; 
-  btn.title = isCollapsed ? '展开终端' : '收起终端';
-  
-  // 展开时重置到最下方，防止在上方展开挡住视线
-  if (!isCollapsed) {
-      terminal.style.bottom = '0px';
-  }
+  terminal.classList.toggle('collapsed-right');
 }
 
 function processCommand(cmd) {
   const commands = {
     help: () => {
-      showOutput('可用命令:\n  help  - 显示此帮助\n  clear - 清屏\n  date  - 当前时间\n  ls    - 列出文章\n  /ai <msg> - 与 AI 对话');
+      showOutput('可用命令:\n  help  - 显示此帮助\n  clear - 清屏\n  date  - 当前时间\n  ls    - 列出文章\n  /ai <消息> - 与 AI 对话');
     },
     clear: () => {
       const out = document.getElementById('terminal-output');
       if (out) out.innerHTML = '';
-      console.clear();
     },
     date: () => showOutput(new Date().toLocaleString()),
     about: () => showOutput('Cyber Red Terminal v1.1\nDragable + AI Support\n输入 /ai <消息> 开始 AI 对话'),
     ls: () => {
-      const posts = document.querySelectorAll('.recent-post-item .post-title a');
+      const posts = document.querySelectorAll('.recent-post-item .post-title a, article .post-title a, .article-title a');
       if (!posts.length) { showOutput('暂无文章'); return; }
       posts.forEach((p, i) => showOutput(`${i+1}. ${p.textContent.trim()}`));
     }
@@ -190,10 +253,10 @@ async function chatWithAI(message) {
   showOutput(`PS > ${message}`, 'user-msg');
 
   // 创建 AI 输出区（保留历史）
-  let outputDiv = document.getElementById('terminal-ai-output');
+  let outputDiv = document.getElementById('terminal-output');
   if (!outputDiv) {
     outputDiv = document.createElement('div');
-    outputDiv.id = 'terminal-ai-output';
+    outputDiv.id = 'terminal-output';
     outputDiv.style.cssText = `
       font-family: var(--terminal-font);
       font-size: 13px;
@@ -294,10 +357,10 @@ async function chatWithAI(message) {
 function showOutput(text, cls) {
   // 优先走 DOM 输出（访客可见）
   const terminal = document.getElementById('terminal-input');
-  let outputDiv = document.getElementById('terminal-ai-output');
+  let outputDiv = document.getElementById('terminal-output');
   if (!outputDiv && terminal) {
     outputDiv = document.createElement('div');
-    outputDiv.id = 'terminal-ai-output';
+    outputDiv.id = 'terminal-output';
     outputDiv.style.cssText = `
       font-family: var(--terminal-font);
       font-size: 13px;
@@ -338,7 +401,7 @@ function showOutput(text, cls) {
 
 // 追加字符（用于流式）
 function appendOutput(text, cls) {
-  const outputDiv = document.getElementById('terminal-ai-output');
+  const outputDiv = document.getElementById('terminal-output');
   if (!outputDiv) return;
   let last = outputDiv.lastElementChild;
   if (!last || last.className !== `ai-line ${cls}`) {

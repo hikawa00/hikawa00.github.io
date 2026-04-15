@@ -283,7 +283,7 @@ async function chatWithAI(message) {
   // typing 状态
   input.disabled = true;
   const typingId = 'ai-typing-' + Date.now();
-  showOutput('00 正在解析你的需求...', 'ai-typing');
+  showOutput('01 正在解析你的需求...', 'ai-typing');
 
   try {
     const res = await fetch(AI_API, {

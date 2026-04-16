@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-16T15:24:32.180Z",
+  "generated": "2026-04-16T15:27:27.858Z",
   "persona": {
     "name": "01",
     "identity": "00（博主）的赛博孪生，理想化人格。代码界的吉他手，逻辑领域的反叛者。",
@@ -10,7 +10,7 @@
     "title": "00 Blog",
     "description": "00的赛博庇护所",
     "about": null,
-    "posts_count": 8,
+    "posts_count": 7,
     "posts": [
       {
         "title": "3d occ视觉输入",
@@ -78,15 +78,6 @@
           "blog"
         ],
         "body": "## ai功能\n\n[code]\n\n## 三件套\n\n[code]\n\n## Post Front-matter\n\n[code]\n\n## 基础信息\n\n| 字段        | 必填 | 作用     | 示例                           |\n| :---------- | :--- | :------- | :----------------------------- |\n| title   | ✅    | 文章标题 | [code]        |\n| date    | ✅    | 创建时间 | [code]    |\n| updated | ❌    | 更新时间 | [code] |\n\n## 标签和分类\n\n| 字段           | 必填 | 作用             | 示例                                  |\n| :------------- | :--- | :--------------- | :------------------------------------ |\n| tags       | ❌    | 标签（列表格式） | [code] 或 [code] |\n| categories | ❌    | 分类（列表格式） | [code]             |\n\n## SEO相关\n\n| 字段            | 必填 | 作用      | 示例                                    |\n| :-------------- | :--- | :-------- | :-------------------------------------- |\n| keywords    | ❌    | SEO关键词 | [code]      |\n| description | ❌    | SEO描述   | [code] |\n\n## 图片相关\n\n| 字段        | 作用         | 示例                          |\n| :---------- | :----------- | :---------------------------- |\n| top_img | 文章顶部大图 | [code"
-      },
-      {
-        "title": "通网TB1",
-        "date": "2026-04-02 14:30:39",
-        "tags": [
-          "study"
-        ],
-        "categories": [],
-        "body": "## Brief Introduction to Networks\n\n- A Communications Model: Data Communication deals with the transmission of signals in a reliable and efficient manner\n\n   !image-20260402143135248\n\n   !image-20260402143149505\n\n  - Source: generates data to be transmitted\n  - Transmitter: Converts data into transmittable signals\n  - Transmission System: Carries data\n  - Receiver: Converts received signal into data\n  - Destination: Takes incoming data\n\n- Networking: technology and architectures of the communication networks used to interconnect communication devices\n\n   - Point to point communication is not usually practical\n      - Devices are too far apart\n      - Large set of devices would need impractical number of connections\n\n   - Solution is a communications network\n\n- Classification of Comms. Networks:\n\n   - 第一维度：网络分类（按规模 / 范围）：\n\n     network size, complexity, the distance it covers and its physical architecture\n\n     | Network Type | Full Name                 | Geographic Scope               "
       }
     ]
   }

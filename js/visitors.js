@@ -32,22 +32,26 @@ const VISITOR_WALL_PATH = '/visitors/';
 
 // ============ 从 Waline 获取留言数据 ============
 async function fetchWalineComments() {
-  try {
-    const res = await fetch(`${WALINE_SERVER_URL}/api/comment?type=visitor&path=${VISITOR_WALL_PATH}`);
-    const data = await res.json();
+  const url = `${WALINE_SERVER_URL}/api/comment?path=${encodeURIComponent(VISITOR_WALL_PATH)}&pageSize=100`;
 
-    if (data.data && Array.isArray(data.data)) {
-      return data.data.map(comment => ({
-        id: comment.objectId || comment.id,
-        name: comment.nick,
-        avatar_url: comment.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(comment.nick)}`,
-        content: comment.comment,
-        date: comment.insertedAt || comment.createdAt || new Date().toISOString()
-      }));
-    }
-    return [];
+  try {
+    const res = await fetch(url);
+    const result = await res.json();
+
+    // Waline 返回结构: { errno, errmsg, data: { page, totalPages, pageSize, count, data: [...] } }
+    const comments = result.data ? result.data.data : [];
+
+    console.log(`[Visitor Wall] Fetched ${comments.length} comments from Waline`);
+
+    return comments.map(comment => ({
+      id: comment.objectId || comment.id,
+      name: comment.nick,
+      avatar_url: comment.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(comment.nick)}`,
+      content: comment.comment,
+      date: comment.insertedAt || comment.createdAt || new Date().toISOString()
+    }));
   } catch (err) {
-    console.error('Failed to fetch Waline comments:', err);
+    console.error('[Visitor Wall] Fetch Error:', err);
     return [];
   }
 }

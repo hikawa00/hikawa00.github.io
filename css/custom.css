@@ -723,3 +723,558 @@ a:hover {
     opacity: 1 !important;
     visibility: visible !important;
 }
+
+/* ============================================
+   访客墙样式 - 红黑终端风格
+   ============================================ */
+#visitor-wall-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: var(--terminal-font);
+}
+
+/* 终端标题 */
+.terminal-title {
+  color: var(--terminal-accent) !important;
+  font-family: var(--terminal-font) !important;
+  font-size: 14px !important;
+  font-weight: normal !important;
+  margin: 30px 0 15px 0 !important;
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--terminal-border) !important;
+}
+
+.terminal-title::before {
+  content: '[ ';
+  color: var(--terminal-cyan);
+}
+
+.terminal-title::after {
+  content: ' ]';
+  color: var(--terminal-cyan);
+}
+
+/* ===== 头像池 ===== */
+.avatar-pool-wrapper {
+  margin-bottom: 40px;
+}
+
+#avatar-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 15px 0;
+}
+
+.visitor-avatar {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.visitor-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 1px dashed var(--terminal-border);
+  /* 默认灰度+红色滤镜 */
+  filter: grayscale(1) sepia(1) hue-rotate(-50deg) saturate(3);
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.visitor-avatar:hover img {
+  /* Hover 时恢复原色 */
+  filter: none;
+  transform: scale(1.1);
+  border-color: var(--terminal-accent);
+}
+
+/* 头像悬停昵称提示 */
+.visitor-avatar .avatar-tooltip {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--terminal-bg);
+  border: 1px dashed var(--terminal-accent);
+  padding: 2px 8px;
+  font-size: 11px;
+  color: var(--terminal-text);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.visitor-avatar:hover .avatar-tooltip {
+  opacity: 1;
+}
+
+/* ===== 留言流 ===== */
+.message-stream-wrapper {
+  margin-bottom: 40px;
+}
+
+#message-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.message-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px;
+  border: 1px dashed var(--terminal-border);
+  background: var(--terminal-bg);
+  transition: border-color 0.3s ease;
+}
+
+.message-item:hover {
+  border-color: var(--terminal-accent);
+}
+
+.message-avatar {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.message-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) sepia(1) hue-rotate(-50deg) saturate(3);
+  transition: filter 0.3s ease;
+}
+
+.message-item:hover .message-avatar img {
+  filter: none;
+}
+
+.message-content-wrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+.message-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.message-nick {
+  color: var(--terminal-accent);
+  font-size: 14px;
+}
+
+.message-date {
+  color: #666;
+  font-size: 11px;
+}
+
+.message-content {
+  color: var(--terminal-text);
+  font-size: 13px;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+/* 空状态提示 */
+.wall-empty {
+  color: #666;
+  font-size: 13px;
+  padding: 20px;
+  text-align: center;
+  border: 1px dashed var(--terminal-border);
+}
+
+/* 响应式 */
+@media screen and (max-width: 600px) {
+  .visitor-avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .message-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .message-avatar {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+/* ============================================
+   Waline 评论区 - 赛博终端风格
+   ============================================ */
+
+/* ---- 容器整体布局 ---- */
+#waline-wrap {
+  margin-top: 40px;
+  padding: 25px;
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--terminal-accent);
+  position: relative;
+  font-family: var(--terminal-font);
+}
+
+/* L型边框 - 左上角 */
+#waline-wrap::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid var(--terminal-accent);
+  border-left: 2px solid var(--terminal-accent);
+}
+
+/* L型边框 - 右下角 */
+#waline-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid var(--terminal-accent);
+  border-right: 2px solid var(--terminal-accent);
+}
+
+/* ---- 标题区 ---- */
+#waline-wrap .wl-header {
+  border-bottom: 1px dashed var(--terminal-border);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+#waline-wrap .wl-title {
+  color: var(--terminal-accent) !important;
+  font-family: var(--terminal-font) !important;
+  font-size: 14px !important;
+}
+
+/* ---- 输入区容器 ---- */
+#waline-wrap .wl-editor-container {
+  background: #0a0a0a;
+  border: 1px solid var(--terminal-border);
+  padding: 15px;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+/* Hex watermark */
+#waline-wrap .wl-editor-container::before {
+  content: '0x00A7 0xFFFF 0xCAFE 0xBABE 0xDEAD 0xBEEF 0x1337 0xCODE';
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+  font-size: 10px;
+  color: rgba(255, 77, 77, 0.15);
+  pointer-events: none;
+  font-family: var(--terminal-font);
+}
+
+/* 输入框 - 深黑背景 */
+#waline-wrap .wl-editor {
+  background: transparent !important;
+  border: none !important;
+  color: var(--terminal-accent) !important;
+  font-family: var(--terminal-font) !important;
+  font-size: 14px !important;
+  resize: none;
+  min-height: 120px;
+  width: 100%;
+  outline: none;
+  caret-color: var(--terminal-accent);
+  position: relative;
+  z-index: 1;
+}
+
+/* Placeholder */
+#waline-wrap .wl-editor::placeholder {
+  color: #555 !important;
+}
+
+#waline-wrap .wl-editor:focus {
+  outline: none;
+}
+
+/* Focus 时的呼吸灯效果 */
+#waline-wrap .wl-editor-container:focus-within {
+  border-color: var(--terminal-accent);
+  animation: terminal-breathe 1.5s ease-in-out infinite;
+}
+
+@keyframes terminal-breathe {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.6), 0 0 25px rgba(255, 77, 77, 0.2);
+  }
+}
+
+/* ---- 提交按钮 ---- */
+#waline-wrap .wl-btn {
+  background: var(--terminal-bg) !important;
+  border: 1px solid var(--terminal-accent) !important;
+  color: var(--terminal-accent) !important;
+  font-family: var(--terminal-font) !important;
+  font-size: 12px !important;
+  padding: 8px 20px !important;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+#waline-wrap .wl-btn:hover {
+  background: var(--terminal-accent) !important;
+  color: var(--terminal-bg) !important;
+  text-shadow: none !important;
+}
+
+/* 扫描线动画 */
+#waline-wrap .wl-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+#waline-wrap .wl-btn:hover::before {
+  left: 100%;
+}
+
+/* ---- 图标栏（Markdown/表情/图片） ---- */
+#waline-wrap .wl-action {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 0;
+  border-top: 1px dashed var(--terminal-border);
+  margin-top: 10px;
+}
+
+#waline-wrap .wl-action-item {
+  color: var(--terminal-accent) !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+#waline-wrap .wl-action-item:hover {
+  color: var(--terminal-amber) !important;
+  text-shadow: 0 0 10px var(--terminal-accent);
+}
+
+/* ---- 评论列表 ---- */
+#waline-wrap .wl-comments {
+  margin-top: 25px;
+}
+
+#waline-wrap .wl-count {
+  color: var(--terminal-accent) !important;
+  font-size: 13px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--terminal-border);
+}
+
+#waline-wrap .wl-comment {
+  padding: 15px 0;
+  border-bottom: 1px dashed var(--terminal-border);
+  position: relative;
+  padding-left: 15px;
+}
+
+/* 目录树线条 */
+#waline-wrap .wl-comment::before {
+  content: '├─';
+  position: absolute;
+  left: 0;
+  color: var(--terminal-border);
+  font-size: 12px;
+}
+
+#waline-wrap .wl-comment:last-child::before {
+  content: '└─';
+}
+
+#waline-wrap .wl-comment:hover {
+  background: rgba(255, 77, 77, 0.05);
+}
+
+/* ---- 评论头像 ---- */
+#waline-wrap .wl-user-avatar {
+  width: 35px !important;
+  height: 35px !important;
+  border-radius: 0 !important;
+  border: 1px solid var(--terminal-border) !important;
+  filter: grayscale(1) sepia(1) hue-rotate(-50deg) saturate(3);
+  transition: all 0.3s ease;
+  margin-right: 12px !important;
+}
+
+#waline-wrap .wl-comment:hover .wl-user-avatar {
+  filter: none;
+  border-color: var(--terminal-accent) !important;
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+}
+
+/* ---- 评论内容区 ---- */
+#waline-wrap .wl-comment-main {
+  flex: 1;
+}
+
+#waline-wrap .wl-comment-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+#waline-wrap .wl-nick {
+  color: var(--terminal-accent) !important;
+  font-weight: bold !important;
+  font-size: 13px !important;
+}
+
+#waline-wrap .wl-time {
+  color: #555 !important;
+  font-size: 10px !important;
+}
+
+#waline-wrap .wl-time::before {
+  content: '[TIMESTAMP] ';
+  color: #444;
+}
+
+#waline-wrap .wl-text {
+  color: var(--terminal-text) !important;
+  font-size: 13px !important;
+  line-height: 1.6;
+}
+
+/* ---- 回复区域 ---- */
+#waline-wrap .wl-reply {
+  border-left: 1px dashed var(--terminal-border);
+  padding-left: 15px;
+  margin-left: 25px;
+  margin-top: 10px;
+}
+
+/* ---- 分页 ---- */
+#waline-wrap .wl-pagination {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px dashed var(--terminal-border);
+  justify-content: center;
+}
+
+#waline-wrap .wl-btn-next {
+  background: var(--terminal-bg) !important;
+  border: 1px solid var(--terminal-border) !important;
+  color: var(--terminal-text) !important;
+  font-family: var(--terminal-font) !important;
+  font-size: 12px !important;
+  padding: 5px 15px !important;
+}
+
+#waline-wrap .wl-btn-next:hover {
+  border-color: var(--terminal-accent) !important;
+  color: var(--terminal-accent) !important;
+}
+
+/* ---- 表情选择器 ---- */
+#waline-wrap .wl-emoji-popup {
+  background: rgba(10, 10, 10, 0.95) !important;
+  border: 1px solid var(--terminal-accent) !important;
+  backdrop-filter: blur(10px);
+}
+
+#waline-wrap .wl-emoji-item {
+  filter: grayscale(1);
+  transition: all 0.3s ease;
+}
+
+#waline-wrap .wl-emoji-item:hover {
+  filter: grayscale(0);
+  transform: scale(1.2);
+}
+
+/* ---- 通知消息 ---- */
+#waline-wrap .wl-notice {
+  background: transparent !important;
+  color: var(--terminal-amber) !important;
+  border: 1px dashed var(--terminal-amber) !important;
+  font-family: var(--terminal-font) !important;
+  font-size: 12px !important;
+}
+
+/* ---- 加载动画 ---- */
+#waline-wrap .wl-loading {
+  color: var(--terminal-accent) !important;
+}
+
+#waline-wrap .wl-loading::before {
+  content: '[ LOADING ';
+}
+
+#waline-wrap .wl-loading::after {
+  content: ' ]';
+  animation: terminal-loading 1s steps(4) infinite;
+}
+
+@keyframes terminal-loading {
+  0% { content: ' ]'; }
+  25% { content: ' / ]'; }
+  50% { content: ' - ]'; }
+  75% { content: ' \\ ]'; }
+}
+
+/* ---- 移动端适配 ---- */
+@media screen and (max-width: 600px) {
+  #waline-wrap {
+    padding: 15px;
+  }
+
+  #waline-wrap .wl-editor {
+    min-height: 80px;
+  }
+
+  #waline-wrap .wl-user-avatar {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  #waline-wrap .wl-comment {
+    padding-left: 10px;
+  }
+
+  #waline-wrap .wl-comment::before {
+    display: none;
+  }
+}

@@ -927,6 +927,8 @@ a:hover {
   border: 1px solid var(--terminal-accent);
   position: relative;
   font-family: var(--terminal-font);
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /* L型边框 - 左上角 */
@@ -1069,8 +1071,13 @@ a:hover {
 }
 
 /* ---- 隐藏不需要的部分 ---- */
-/* 隐藏输入区域 */
-#waline-wrap .wl-editor-container,
+/* 隐藏输入区域的部分元素 */
+/* wl-editor-container 改为 flex 布局使其可见 */
+#waline-wrap .wl-editor-container {
+  display: flex !important;
+  flex-direction: column;
+}
+
 #waline-wrap .wl-editor-wrapper,
 #waline-wrap .wl-input {
   display: none !important;
@@ -1099,6 +1106,9 @@ a:hover {
   flex-direction: row !important;
   flex-wrap: wrap;
   gap: 10px;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
 }
 
 #waline-wrap .wl-action-item {
@@ -1111,6 +1121,25 @@ a:hover {
 #waline-wrap .wl-action-item:hover {
   color: var(--terminal-amber) !important;
   text-shadow: 0 0 10px var(--terminal-accent);
+}
+
+/* 图片上传按钮靠右 */
+#waline-wrap .wl-image-upload {
+  border: 1px dashed var(--terminal-border) !important;
+  margin-left: auto !important;
+  flex-shrink: 0 !important;
+}
+
+/* RSS 按钮样式 */
+#waline-wrap .wl-rss {
+  margin-top: 15px;
+  color: var(--terminal-text) !important;
+  opacity: 0.7;
+}
+
+#waline-wrap .wl-rss:hover {
+  color: var(--terminal-accent) !important;
+  opacity: 1;
 }
 
 /* 强制所有 SVG 图标白色 */
@@ -1175,6 +1204,7 @@ a:hover {
   border: 1px dashed var(--terminal-border) !important;
   padding: 5px 10px !important;
   margin: 2px !important;
+  min-width: 100% !important;
 }
 
 #waline-wrap .wl-card-item:hover {
@@ -1349,7 +1379,7 @@ a:hover {
 #waline-wrap .wl-reply {
   border-left: 1px dashed var(--terminal-border);
   padding-left: 15px;
-  margin-left: 25px;
+  margin-left: 15px;
   margin-top: 10px;
 }
 
@@ -1401,6 +1431,141 @@ a:hover {
   font-size: 12px !important;
 }
 
+/* ============================================
+   Waline 评论区深度定制 - 赛博终端风格
+   ============================================ */
+
+/* ---- 登录提示样式 ---- */
+#waline-wrap .wl-login-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  border: 1px dashed var(--terminal-border);
+  gap: 15px;
+}
+
+#waline-wrap .wl-login-text {
+  color: var(--terminal-text);
+  font-family: var(--terminal-font);
+  font-size: 13px;
+}
+
+#waline-wrap #waline-login-btn {
+  background: var(--terminal-bg) !important;
+  border: 1px solid var(--terminal-accent) !important;
+  color: var(--terminal-accent) !important;
+  font-family: var(--terminal-font) !important;
+  font-size: 12px !important;
+  padding: 8px 20px !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#waline-wrap #waline-login-btn:hover {
+  background: var(--terminal-accent) !important;
+  color: var(--terminal-bg) !important;
+}
+
+/* ---- 隐藏管理按钮 ---- */
+#waline-wrap .wl-admin-actions {
+  display: none !important;
+}
+
+/* ---- Waline 评论区样式 ---- */
+#waline-wrap {
+  margin-top: 30px;
+}
+
+/* ---- 隐藏未登录时的多余元素 ---- */
+/* 隐藏评论数量统计 */
+#waline-wrap .wl-header {
+  display: none !important;
+}
+
+/* 隐藏排序工具栏（登录前不需要） */
+#waline-wrap .wl-meta-head {
+  display: none !important;
+}
+
+/* 隐藏评论列表（登录前不需要） */
+#waline-wrap .wl-comments {
+  display: none !important;
+}
+
+/* ---- wl-comments 普通评论列表样式 ---- */
+#waline-wrap .wl-comment {
+  padding: 15px 0 !important;
+  border-bottom: 1px dashed var(--terminal-border) !important;
+  position: relative;
+  padding-left: 15px !important;
+  margin-bottom: 15px;
+}
+
+#waline-wrap .wl-comment::before {
+  content: '├─';
+  position: absolute;
+  left: 0;
+  color: var(--terminal-border);
+  font-size: 12px;
+}
+
+#waline-wrap .wl-comment:last-child::before {
+  content: '└─';
+}
+
+#waline-wrap .wl-comment:hover {
+  background: rgba(255, 77, 77, 0.03);
+}
+
+#waline-wrap .wl-comment-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 5px !important;
+}
+
+#waline-wrap .wl-comment .wl-nick {
+  color: var(--terminal-accent) !important;
+  font-weight: bold !important;
+  font-size: 12px !important;
+  font-family: var(--terminal-font) !important;
+}
+
+#waline-wrap .wl-comment .wl-time {
+  color: #555 !important;
+  font-size: 10px !important;
+}
+
+#waline-wrap .wl-comment .wl-time::before {
+  content: '[TIMESTAMP] ';
+  color: #444;
+}
+
+#waline-wrap .wl-comment .wl-text {
+  color: var(--terminal-text) !important;
+  font-family: var(--terminal-font) !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+}
+
+#waline-wrap .wl-comment .wl-user-avatar {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 0 !important;
+  border: 1px solid var(--terminal-border) !important;
+}
+
+/* ---- 回复区域 ---- */
+#waline-wrap .wl-reply {
+  border-left: 1px dashed var(--terminal-accent) !important;
+  padding-left: 15px !important;
+  margin-left: 25px !important;
+  margin-top: 10px !important;
+}
+
 /* ---- 移动端适配 ---- */
 @media screen and (max-width: 600px) {
   #waline-wrap {
@@ -1414,13 +1579,5 @@ a:hover {
   #waline-wrap .wl-user-avatar {
     width: 28px !important;
     height: 28px !important;
-  }
-
-  #waline-wrap .wl-comment {
-    padding-left: 10px;
-  }
-
-  #waline-wrap .wl-comment::before {
-    display: none;
   }
 }

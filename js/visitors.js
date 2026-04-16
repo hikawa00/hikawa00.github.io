@@ -9,16 +9,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // PJAX 切换页面后重新初始化
 document.addEventListener('pjax:complete', function() {
-  initVisitorWall();
-  // 后备：延迟 200ms 后再次检查，确保 DOM 完全渲染
-  setTimeout(delayedInit, 200);
+  requestAnimationFrame(() => {
+    initVisitorWall();
+  });
 });
 
 // 页面可见性变化时检查是否需要初始化（处理 PJAX 切换后页面未初始化的情况）
 document.addEventListener('visibilitychange', function() {
   if (document.visibilityState === 'visible') {
     initVisitorWall();
-    setTimeout(delayedInit, 200);
   }
 });
 
@@ -52,18 +51,10 @@ function setupPageChangeObserver() {
 function initVisitorWall() {
   const container = document.getElementById('visitor-wall-container');
   if (!container) return;
-  // 强制重置初始化状态，确保每次进入页面都能重新渲染
+  if (container.dataset.initialized === 'true') return;
   container.dataset.initialized = 'true';
 
   renderAvatarPool();
-}
-
-// 后备：延迟检查，确保 DOM 完全渲染后再初始化
-function delayedInit() {
-  const container = document.getElementById('visitor-wall-container');
-  if (container && container.dataset.initialized !== 'true') {
-    initVisitorWall();
-  }
 }
 
 // ============ Waline 配置 ============
@@ -90,9 +81,6 @@ async function fetchWalineComments() {
 async function renderAvatarPool() {
   const avatarPool = document.getElementById('avatar-pool');
   if (!avatarPool) return;
-  // 防止重复渲染
-  if (avatarPool.dataset.rendered === 'true') return;
-  avatarPool.dataset.rendered = 'true';
 
   avatarPool.innerHTML = '<div class="wall-empty">正在连接监控节点...</div>';
 

@@ -115,7 +115,7 @@ async function renderVisitorWall() {
           <span class="message-nick">${escapeHtml(msg.name)}</span>
           <span class="message-date">${formatDate(msg.date)}</span>
         </div>
-        <div class="message-content">${escapeHtml(msg.content)}</div>
+        <div class="message-content">${safeHtml(msg.content)}</div>
       </div>
     `;
     messageStream.appendChild(messageEl);
@@ -128,6 +128,52 @@ function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
+}
+
+// 安全地渲染评论内容 - 链接可点击，图片可显示
+function safeHtml(text) {
+  if (!text) return '';
+  let escaped;
+  // 检查是否包含 HTML 标签（已有 HTML 结构）
+  if (/<[^>]+>/.test(text)) {
+    // 已有 HTML，直接处理
+    escaped = text;
+  } else {
+    // 纯文本，用 textContent 安全转义
+    const tmp = document.createElement('div');
+    tmp.textContent = text;
+    escaped = tmp.innerHTML;
+    // 把 < 和 > 转回去，让 HTML 标签能显示
+    escaped = escaped.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+  }
+  // Markdown 图片语法 ![alt](url) 或 [](url) 转为 <img> 标签
+  escaped = escaped.replace(/!\[([^\]]*)\]\((.+?)\)/g, function(_, alt, url) {
+    return '<img src="' + url + '" alt="' + alt + '" style="max-width:100%;max-height:200px;border-radius:4px;" onerror="this.style.display=\'none\'">';
+  });
+  // 为已有 <img> 标签添加样式
+  escaped = escaped.replace(/<img\b([^>]*)\/?>/g, function(match, attrs) {
+    if (!attrs.includes('style=')) {
+      attrs += ' style="max-width:100%;max-height:200px;border-radius:4px;"';
+    }
+    if (!attrs.includes('onerror=')) {
+      attrs += ' onerror="this.style.display=\'none\'"';
+    }
+    return '<img' + attrs + '>';
+  });
+  // 用 DOM 操作把 img 包装成可点击的锚点（避免正则引号问题）
+  const tmp = document.createElement('div');
+  tmp.innerHTML = escaped;
+  tmp.querySelectorAll('img').forEach(img => {
+    const anchor = document.createElement('a');
+    anchor.href = img.src;
+    anchor.target = '_blank';
+    anchor.rel = 'noopener noreferrer';
+    anchor.appendChild(img);
+  });
+  escaped = tmp.innerHTML;
+  // 所有剩余的链接转为可点击的 <a> 标签
+  escaped = escaped.replace(/(https?:\/\/[^\s<>"]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  return escaped;
 }
 
 function formatDate(dateStr) {

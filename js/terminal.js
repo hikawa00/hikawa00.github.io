@@ -347,7 +347,7 @@ async function chatWithAI(message) {
 
     // 给博主加个快捷查看历史的方式
     if (message.includes('博主') || message.includes('你是谁') || message.includes('blog')) {
-      appendOutput('\n---\n提示: 输入 /ai 继续对话，00 会记住上下文', 'ai-hint');
+      appendOutput('\n---\n提示: 输入 /ai 继续对话，01 会记住上下文', 'ai-hint');
     }
 
   } catch (err) {

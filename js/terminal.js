@@ -26,8 +26,8 @@ function createTerminalInput() {
   // ===== 默认提示文字 =====
   const defaultHint = document.createElement('div');
   defaultHint.className = 'output-hint';
-  defaultHint.textContent = 'Welcome. 输入 help 查看命令，/ai <消息> 开始聊天';
-  defaultHint.style.cssText = 'color: #444; font-size: 12px; line-height: 1.6;';
+  defaultHint.textContent = 'Welcome. 输入 help 查看命令，/ai <消息> 开始聊天，/exit退出ai模式';
+  defaultHint.style.cssText = 'color: #a9a8a8; font-size: 12px; line-height: 1.6;';
 
   // ===== 三态布局：展开 / 收起输出 / 收起至右 =====
   // 顶部工具栏（按钮行）
@@ -209,16 +209,28 @@ function toggleTerminal() {
 }
 
 function processCommand(cmd) {
+  // ---------- 退出 AI 模式 ----------
+  if (cmd === '/exit') {
+    exitAIMode();
+    return;
+  }
+
+  // ---------- AI 模式下直接发送消息 ----------
+  if (window.terminalAIMode) {
+    chatWithAI(cmd);
+    return;
+  }
+
   const commands = {
     help: () => {
-      showOutput('可用命令:\n  help  - 显示此帮助\n  clear - 清屏\n  date  - 当前时间\n  ls    - 列出文章\n  /ai <消息> - 与 AI 对话');
+      showOutput('可用命令:\n  help  - 显示此帮助\n  clear - 清屏\n  date  - 当前时间\n  ls    - 列出文章\n  /ai   - 进入 AI 对话模式\n  /exit - 退出 AI 模式');
     },
     clear: () => {
       const out = document.getElementById('terminal-output');
       if (out) out.innerHTML = '';
     },
     date: () => showOutput(new Date().toLocaleString()),
-    about: () => showOutput('Cyber Red Terminal v1.1\nDragable + AI Support\n输入 /ai <消息> 开始 AI 对话'),
+    about: () => showOutput('Cyber Red Terminal v1.1\nDragable + AI Support\n输入 /ai 进入 AI 模式'),
     ls: () => {
       const posts = document.querySelectorAll('.recent-post-item .post-title a, article .post-title a, .article-title a');
       if (!posts.length) { showOutput('暂无文章'); return; }
@@ -227,16 +239,41 @@ function processCommand(cmd) {
   };
 
   // ---------- AI 对话 ----------
-  if (cmd.startsWith('/ai ')) {
-    const message = cmd.slice(4).trim();
-    if (!message) { showOutput('用法: /ai <你的问题>'); return; }
-    chatWithAI(message);
+  if (cmd.startsWith('/ai')) {
+    enterAIMode();
+    // 如果 /ai 后面有内容，直接发送
+    const message = cmd.slice(3).trim();
+    if (message) {
+      chatWithAI(message);
+    }
     return;
   }
 
   const parts = cmd.toLowerCase().trim().split(/\s+/);
   if (commands[parts[0]]) commands[parts[0]](parts.slice(1).join(' '));
   else showOutput(`'${parts[0]}' 未识别，输入 help 查看命令`);
+}
+
+// 进入 AI 模式
+function enterAIMode() {
+  window.terminalAIMode = true;
+  const promptLabel = document.querySelector('.terminal-prompt-label');
+  if (promptLabel) {
+    promptLabel.textContent = 'AI >';
+    promptLabel.style.color = 'var(--terminal-accent)';
+  }
+  showOutput('[AI 模式] 输入内容直接对话，/exit 退出', 'ai-hint');
+}
+
+// 退出 AI 模式
+function exitAIMode() {
+  window.terminalAIMode = false;
+  const promptLabel = document.querySelector('.terminal-prompt-label');
+  if (promptLabel) {
+    promptLabel.textContent = 'PS >';
+    promptLabel.style.color = '';
+  }
+  showOutput('[已退出 AI 模式]', 'ai-hint');
 }
 
 // ===================== AI 对话核心 =====================
@@ -362,6 +399,9 @@ async function chatWithAI(message) {
 
 // 在终端输出区显示一行
 function showOutput(text, cls) {
+  // 解析 markdown
+  text = parseMarkdown(text);
+
   // 首次输出时清除默认提示
   const hint = document.querySelector('.output-hint');
   if (hint) hint.remove();
@@ -410,8 +450,88 @@ function showOutput(text, cls) {
   console.log(text);
 }
 
+// 解析 markdown 为终端可显示的纯文本
+// 支持: **粗体**, __粗体__, *斜体*, _斜体_, ~~删除线~~, `行内代码`, # 标题
+function parseMarkdown(text) {
+  if (!text) return '';
+
+  // 按行处理，识别代码块（```xxx```）
+  const lines = text.split('\n');
+  let inCodeBlock = false;
+  let codeBlockLang = '';
+
+  const processed = lines.map(line => {
+    // 代码块开始/结束
+    if (line.startsWith('```')) {
+      if (inCodeBlock) {
+        inCodeBlock = false;
+        codeBlockLang = '';
+        return '[代码块结束]';
+      } else {
+        inCodeBlock = true;
+        codeBlockLang = line.slice(3).trim();
+        return `[代码块: ${codeBlockLang || 'text'}]`;
+      }
+    }
+
+    if (inCodeBlock) {
+      // 代码块内容：保留原样，行首加缩进标记
+      return '  | ' + line;
+    }
+
+    // 行内代码 `code` -> 保留内容，两端加引号
+    line = line.replace(/`([^`]+)`/g, '"$1"');
+
+    // 标题 # ## ### -> 内容转大写，去掉#号
+    line = line.replace(/^(#{1,3})\s+(.+)$/, (m, hashes, content) => {
+      return content.toUpperCase();
+    });
+
+    // 粗体 **text** 或 __text__ -> 只保留内容
+    line = line.replace(/\*\*([^*]+)\*\*/g, '$1');
+    line = line.replace(/__([^_]+)__/g, '$1');
+
+    // 斜体 *text* 或 _text_（注意排除列表项等场景）
+    line = line.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '$1');
+    line = line.replace(/(?<!_)_([^_]+)_(?!_)/g, '$1');
+
+    // 删除线 ~~text~~ -> 保留内容，加~修饰
+    line = line.replace(/~~([^~]+)~~/g, '~$1~');
+
+    // 引用 > text -> 保留前缀 |
+    line = line.replace(/^>\s?/gm, '| ');
+
+    // 无序列表 - item 或 * item -> 保留内容
+    line = line.replace(/^[-*]\s+/gm, '• ');
+
+    // 有序列表 1. item -> 保留内容
+    line = line.replace(/^\d+\.\s+/gm, (m) => m);
+
+    // 链接 [text](url) -> 只保留文字
+    line = line.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+
+    // 图片 ![alt](url) -> 保留alt文字
+    line = line.replace(/!\[([^\]]*)\]\([^)]+\)/g, '[$1]');
+
+    // 水平线 --- 或 *** -> 跳过
+    if (line.match(/^[-*_]{3,}$/)) return '';
+
+    // 清理所有残留的 markdown 特殊符号
+    line = line.replace(/[*_`#~>]/g, '');
+
+    // 清理多余的空格但保留必要格式
+    line = line.replace(/\s+/g, ' ');
+
+    return line;
+  });
+
+  return processed.join('\n');
+}
+
 // 追加字符（用于流式）
 function appendOutput(text, cls) {
+  // 解析 markdown 并返回处理后的纯文本
+  text = parseMarkdown(text);
   const outputDiv = document.getElementById('terminal-output');
   if (!outputDiv) return;
   let last = outputDiv.lastElementChild;

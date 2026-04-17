@@ -26,7 +26,7 @@ html, body {
 }
 
 /* 全局等宽字体（排除图标） */
-:not(i):not(.fas):not(.far):not(.fab):not([class*="fa-"]) {
+:not(i):not(.fas):not(.far):not(.fab):not([class*="fa-"]):not(.social-share):not(.social-share-icon):not([class*="share-"]):not([class*="a2a_"]) {
   font-family: var(--terminal-font) !important;
 }
 

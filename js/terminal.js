@@ -555,7 +555,7 @@ function appendOutput(text, cls) {
 
 function addTerminalPrompt() {
   // 1. 寻找主页容器或文章页容器
-  const container = document.querySelector('.recent-posts') || document.querySelector('#page') || document.querySelector('#archive');
+  const container = document.querySelector('.recent-posts') || document.querySelector('#page') || document.querySelector('#archive')|| document.querySelector('#post');
   if (!container || document.querySelector('.terminal-prompt')) return;
 
   const prompt = document.createElement('div');

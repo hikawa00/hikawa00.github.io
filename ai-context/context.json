@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-17T05:31:43.454Z",
+  "generated": "2026-05-18T16:05:35.178Z",
   "persona": {
     "name": "01",
     "identity": "00（博主）的赛博孪生，理想化人格。代码界的吉他手，逻辑领域的反叛者。",
@@ -10,7 +10,7 @@
     "title": "00 Blog",
     "description": "00的赛博庇护所",
     "about": null,
-    "posts_count": 12,
+    "posts_count": 13,
     "posts": [
       {
         "title": "3d occ视觉输入",
@@ -33,6 +33,15 @@
           "exploring"
         ],
         "body": "## 主要\n\n## 主要命令\n\n## Git commit——提交\n\n[code]\n\n## Git Branch——分支\n\n现在只要记住使用分支其实就相当于在说：“我想基于这个提交以及它所有的 parent 提交进行新的工作。”\n\n- 创建分支\n\n[code]\n\n- 切换到分支\n\n[code]\n\n- 创建同时切换\n\n[code]\n\n我们新建一个分支，在其上开发某个新功能，开发完成后再合并回主线\n\n## 1. Git Merge\n\n它有两个 parent 节点。翻译成自然语言相当于：“我要把这两个 parent 节点本身及它们所有的祖先都包含进来。”\n\n- 当前在谁就是合并到谁\n\n[code]\n\n!image-20260310232852799\n\n## 2. Git Rebase\n\n取出一系列的提交记录，“复制”它们，然后在另外一个地方逐个的放下去。\n\n[code]\n\n!image-20260310233721938\n\n## 在提交树上移动\n\nHEAD 总是指向当前分支上最近一次提交记录。大多数修改提交树的 Git 命令都是从改变 HEAD 的指向开始的。\n\n!image-20260310234758868\n\n[code]\n\n## 相对引用\n\n- [code]向上移动 1 个提交记录（[code] 相当于“[code] 的 parent 节点”。[code] 是 [code] 的第二个 parent 节点）\n-  [code] 向上移动多个提交记录，如 [code]"
+      },
+      {
+        "title": "guessNum",
+        "date": "2026-05-19 00:04:41",
+        "tags": [
+          "练兵"
+        ],
+        "categories": [],
+        "body": "<!DOCTYPE html>\n<html lang=\"zh-CN\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>猜数字游戏 H5版</title>\n    <style>\n        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background-color: #f4f4f9; }\n        .container { max-width: 400px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }\n        input { width: 60%; padding: 10px; font-size: 16px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; text-align: center; }\n        button { padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }\n        button:disabled { background-color: #ccc; }\n        textarea { width: 90%; height: 150px; margin-top: 15px; padding: 10px; border-radius: 5px; border: 1px solid #ccc; resize: none; background-color: #fafafa; }\n    </style>\n</head>\n<body>\n\n<div class=\"con"
       },
       {
         "title": "Unknown",

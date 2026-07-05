@@ -1,0 +1,589 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>OO TB2 | hikawa00</title><meta name="author" content="浮熔游响红"><meta name="copyright" content="浮熔游响红"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="一些补充 ArrayList  调用：    泛型定义 (Parameterized)：ArrayList&lt;Flower&gt; myList &#x3D; new ArrayList&lt;&gt;();（注意尖括号的使用）。 常用方法表： add(Object): 末尾添加。 remove(Object) 或 remove(index): 删除。 contains(Object): 返回布尔值，查">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OO TB2">
+<meta property="og:url" content="https://hikawa00.top/2026/04/02/OO-TB2/index.html">
+<meta property="og:site_name" content="hikawa00">
+<meta property="og:description" content="一些补充 ArrayList  调用：    泛型定义 (Parameterized)：ArrayList&lt;Flower&gt; myList &#x3D; new ArrayList&lt;&gt;();（注意尖括号的使用）。 常用方法表： add(Object): 末尾添加。 remove(Object) 或 remove(index): 删除。 contains(Object): 返回布尔值，查">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240903090705.jpg">
+<meta property="article:published_time" content="2026-04-02T05:08:23.000Z">
+<meta property="article:modified_time" content="2026-04-02T05:18:47.738Z">
+<meta property="article:author" content="浮熔游响红">
+<meta property="article:tag" content="OO">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240903090705.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "OO TB2",
+  "url": "https://hikawa00.top/2026/04/02/OO-TB2/",
+  "image": "https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240903090705.jpg",
+  "datePublished": "2026-04-02T05:08:23.000Z",
+  "dateModified": "2026-04-02T05:18:47.738Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "浮熔游响红",
+      "url": "https://hikawa00.top"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://hikawa00.top/2026/04/02/OO-TB2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'OO TB2',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Caveat&family=Quicksand:wght@300;400&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><meta name="generator" content="Hexo 8.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240903090705.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97/"><i class="fa-fw fas fa-laptop"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/visitors/"><i class="fa-fw fas fa-users"></i><span> 访客墙</span></a></div><div class="menus_item"><a class="site-page" href="/Me/"><i class="fa-fw fas fa-person"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed/img/bgim.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">hikawa00</span></a><a class="nav-page-title" href="/"><span class="site-name">OO TB2</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97/"><i class="fa-fw fas fa-laptop"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/visitors/"><i class="fa-fw fas fa-users"></i><span> 访客墙</span></a></div><div class="menus_item"><a class="site-page" href="/Me/"><i class="fa-fw fas fa-person"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">OO TB2</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-02T05:08:23.000Z" title="发表于 2026-04-02 13:08:23">2026-04-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-02T05:18:47.738Z" title="更新于 2026-04-02 13:18:47">2026-04-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/study/">study</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h3 id="一些补充"><a href="#一些补充" class="headerlink" title="一些补充"></a>一些补充</h3><ul>
+<li><p>ArrayList</p>
+<ul>
+<li>调用：</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed/img/image-20260402130952536.png" alt="image-20260402130952536"></p>
+<ul>
+<li><strong>泛型定义 (Parameterized)</strong>：<code>ArrayList&lt;Flower&gt; myList = new ArrayList&lt;&gt;();</code>（注意尖括号的使用）。</li>
+<li><strong>常用方法表</strong>：<ul>
+<li><code>add(Object)</code>: 末尾添加。</li>
+<li><code>remove(Object)</code> 或 <code>remove(index)</code>: 删除。</li>
+<li><code>contains(Object)</code>: 返回布尔值，查是否存在。</li>
+<li><code>indexOf(Object)</code>: 查找元素位置。</li>
+<li><code>isEmpty()</code>: 判断是否为空。</li>
+</ul>
+</li>
+<li><strong>核心区别</strong>：<code>ArrayList</code> 是动态扩容的，而 <code>Array</code> 是固定长度的。</li>
+</ul>
+</li>
+<li><p>Design Process … taking inheritance into account</p>
+<ul>
+<li><p>Look for objects that have <strong>common attributes and behaviours</strong>.</p>
+</li>
+<li><p>Design the class (superclass) that represents the <strong>common state and behaviour</strong>.</p>
+</li>
+<li><p>Decide if a subclass needs <strong>behaviours</strong> (methods implementation) that are specific to that particular subclass type</p>
+</li>
+<li><p>Look for more opportunities to use abstraction, by finding two or more subclasses that might need common behaviour.</p>
+</li>
+<li><p>Finish the class hierarchy</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Part-1-Class-Relationships-Inheritance-类关系与继承"><a href="#Part-1-Class-Relationships-Inheritance-类关系与继承" class="headerlink" title="Part 1: Class Relationships &amp; Inheritance (类关系与继承)"></a>Part 1: Class Relationships &amp; Inheritance (类关系与继承)</h2><h3 id="1-1-类与类之间的关系"><a href="#1-1-类与类之间的关系" class="headerlink" title="1.1 类与类之间的关系"></a>1.1 类与类之间的关系</h3><ul>
+<li><strong>Aggregation (Has-a) &#x2F; 聚合</strong>: Objects are instance variables in the class</li>
+<li><strong>Inheritance (Is-a) &#x2F; 继承</strong>: Subclasses inherit the properties (<strong>attributes and operations</strong>) of their superclass<ul>
+<li>使用 <code>extends</code> keyword</li>
+<li>意义：creating subclasses from a superclass (parent class)</li>
+<li>特性：A subclass object can be treated as an object of its superclass，并且具有<strong>传递性</strong>：A 继承 B，B 继承 C，则 A 也是 C，但是是单向的，反向不成立</li>
+<li><strong>优点</strong>: Avoids duplicating code， allows specialisation by overriding methods</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-Access-Modifiers-访问权限控制"><a href="#1-2-Access-Modifiers-访问权限控制" class="headerlink" title="1.2 Access Modifiers (访问权限控制)"></a>1.2 Access Modifiers (访问权限控制)</h3><ul>
+<li><p><strong>instance variables and methods</strong></p>
+</li>
+<li><p>By default, you should make all instance variables private</p>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>本类内部</th>
+<th>同包其他类</th>
+<th>不同包子类</th>
+<th>不同包非子类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>private</code></td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>not inherited + 子类不可见</td>
+</tr>
+<tr>
+<td><code>default</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>只有同包能访问</td>
+</tr>
+<tr>
+<td><code>protected</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>专门为继承设计</td>
+</tr>
+<tr>
+<td><code>public</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>任何地方均可访问</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h3 id="1-3-Polymorphism-多态"><a href="#1-3-Polymorphism-多态" class="headerlink" title="1.3 Polymorphism (多态)"></a>1.3 Polymorphism (多态)</h3><ul>
+<li><p>向上转型 (Upcasting) <strong>定义</strong>: Using a single definition (superclass) with different types (subclass)</p>
+<ul>
+<li><code>Creature a = new Turtle();</code> (允许)</li>
+<li>可以创建<strong>父类类型的数组</strong>来存储<strong>不同的子类对象</strong>：<code>Creature[] list = {new Dog(), new Cat()};</code></li>
+</ul>
+</li>
+<li><p><strong>Downcasting (向下转型)</strong>: 将父类引用转回子类引用。</p>
+<ul>
+<li><code>Dog d = (Dog) a;</code></li>
+<li><strong>风险</strong>: 必须确保该引用实际指向的就是该子类对象，否则报运行时错误。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Part-2-Abstract-Classes-Interfaces-抽象类与接口"><a href="#Part-2-Abstract-Classes-Interfaces-抽象类与接口" class="headerlink" title="Part 2: Abstract Classes &amp; Interfaces (抽象类与接口)"></a>Part 2: Abstract Classes &amp; Interfaces (抽象类与接口)</h2><h3 id="2-1-Abstract-Class-抽象类"><a href="#2-1-Abstract-Class-抽象类" class="headerlink" title="2.1 Abstract Class (抽象类)"></a>2.1 Abstract Class (抽象类)</h3><ul>
+<li><strong>特点</strong>: The compiler will <strong>not</strong> let you <strong>instantiate an abstract class</strong>（不能 <code>Creature aCreature = new Creature()</code>）</li>
+<li><strong>用途</strong>: The only use it has is in being extended，作为子类的模板。（能 <code>Creature bCreature = new Rabbit()</code>，Creature作为引用的类型，规定方法有哪些）</li>
+<li>Lots of classes in the API are abstract!</li>
+<li>Concrete class: non-abstract class is called a concrete class</li>
+<li><strong>Abstract Method (抽象方法)</strong>:有抽象方法必是抽象类<ul>
+<li>特点：没有方法体，the method must be overridden in the child class</li>
+<li>要求（Contract）：A subclass must implement ALL abstract methods from its superclass (or be declared abstract)</li>
+<li>意义：规定必须有的方法，方便放心的统一调用</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2-Interfaces-接口"><a href="#2-2-Interfaces-接口" class="headerlink" title="2.2 Interfaces (接口)"></a>2.2 Interfaces (接口)</h3><ul>
+<li><p><strong>本质</strong>: 100% 的抽象类→NO implemented methods（Java 8 之前）→<strong>interfaces can’t be instantiated</strong></p>
+</li>
+<li><p>与类的相似： Both abstract classes and interfaces can contain constants that are inherited；Like classes, interfaces can be extended as well；</p>
+</li>
+<li><p><strong>与类的不同→多重继承</strong>: Java 类只能 <code>extends</code> 一个父类，但可以 <code>implements</code> 多个接口。解决 “Deadly Diamond Problem”。</p>
+</li>
+<li><p>优点：An interface allows polymorphic capabilities without the problems of multiple inheritance</p>
+</li>
+<li><p>“要求”： If a class implements an interface, but only implements some of its methods, then this class becomes an abstract class ; it cannot be instantiated</p>
+</li>
+<li><p>What happens if interface contain <strong>same named methods and variables</strong> (constants)?</p>
+<ul>
+<li><p>Same named methods:</p>
+<ul>
+<li>If they have different parameters, then Child interface has both (this is same as overloading).</li>
+<li>If they differ by only return type, then error.</li>
+<li>If the two methods are identical, only keep one</li>
+</ul>
+</li>
+<li><p>Same-named constants: we keep both constants. To refer to them, use <strong>parent interface name as prefix</strong>.→To refer to them, we use: Father.age or Mother.age</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 飞行接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Flyable</span> &#123;</span><br><span class="line">    <span class="comment">// 接口中方法默认就是 public abstract，可省略</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">fly</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生物父类（代码中用到但未定义，补充定义避免编译错误）</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Creature</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 飞鼠类：继承生物，实现飞行接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">FlyingSquirrel</span> <span class="keyword">extends</span> <span class="title class_">Creature</span> <span class="keyword">implements</span> <span class="title class_">Flyable</span> &#123;</span><br><span class="line">    <span class="comment">// 必须实现接口方法，权限必须是 public</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fly</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 飞行逻辑</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 自定义方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">(<span class="type">int</span> duration)</span> &#123;</span><br><span class="line">        <span class="comment">// 奔跑逻辑</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 计数接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Countable</span> &#123;</span><br><span class="line">    <span class="comment">// 接口中变量默认：public static final 常量</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">20</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">30</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 接口抽象方法</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">counting</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现计数接口</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Example</span> <span class="keyword">implements</span> <span class="title class_">Countable</span> &#123;</span><br><span class="line">    <span class="comment">// 子类的成员变量（隐藏接口常量）</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 实现接口方法</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">counting</span><span class="params">()</span> &#123;</span><br><span class="line">        sum = x + y; <span class="comment">// 使用本类变量 x=1, y=2</span></span><br><span class="line">        System.out.println(<span class="string">&quot;Sum is &quot;</span> + sum);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 继承 Example 并实现 Countable</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Example1</span> <span class="keyword">extends</span> <span class="title class_">Example</span> <span class="keyword">implements</span> <span class="title class_">Countable</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">sub</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重写计数方法</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">counting</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 接口常量 y(30) - 父类 Example 的 x(1) = 29</span></span><br><span class="line">        sub = Countable.y - <span class="built_in">super</span>.x;</span><br><span class="line">        System.out.println(<span class="string">&quot;Sub is &quot;</span> + sub);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试运行类</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ResultOfCount</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String args[])</span> &#123;</span><br><span class="line">        <span class="type">Example</span> <span class="variable">x</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Example</span>();</span><br><span class="line">        x.counting();    <span class="comment">// 输出 Sum is 3</span></span><br><span class="line"></span><br><span class="line">        <span class="type">Example1</span> <span class="variable">y</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Example1</span>();</span><br><span class="line">        y.counting();    <span class="comment">// 输出 Sub is 29</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>接口成员</strong>:</p>
+<ul>
+<li><p><strong>变量</strong>: 默认是 <code>public static final</code> (常量)</p>
+<ul>
+<li>在复杂的继承链中，如何精确找到你想要的那个变量？</li>
+<li><strong>访问接口常量</strong>：使用 <code>接口名.变量名</code>（例如 <code>Countable.y</code>）。</li>
+<li><strong>访问直接父类变量</strong>：使用 <code>super.变量名</code>（例如 <code>super.x</code> 指向 <code>Example</code> 里的 <code>x</code>）。</li>
+<li><strong>访问本类变量</strong>：直接写变量名或使用 <code>this.变量名</code>。</li>
+<li><strong>注意</strong>：子类不能修改接口里的变量值</li>
+</ul>
+</li>
+<li><p><strong>方法</strong>: 默认是 <code>public abstract</code>。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>Java 8+ 新特性</strong>:</p>
+<ul>
+<li><strong>Default methods</strong>: 允许接口有方法体，可以重写，调用旧版方式：<code>InterfaceName.super.methodName()</code>。</li>
+<li><strong>Static methods</strong>: 接口内的工具方法，不能被子类重写，调用方式：<code>InterfaceName.methodName()</code>。只能通过“接口名”这一个入口进入，不能通过“对象”入口进入。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-3-核心对比：Abstract-Class-vs-Interface"><a href="#2-3-核心对比：Abstract-Class-vs-Interface" class="headerlink" title="2.3 核心对比：Abstract Class vs Interface"></a>2.3 核心对比：Abstract Class vs Interface</h3><ul>
+<li>Prefer interface over abstract class when no method implementation is provided</li>
+<li>如果需要定义变量状态（非静态变量）或部分方法实现，选择 <strong>Abstract Class</strong>。</li>
+</ul>
+<h2 id="Part-3-Overriding-Object-Class-方法重写与顶层类"><a href="#Part-3-Overriding-Object-Class-方法重写与顶层类" class="headerlink" title="Part 3: Overriding &amp; Object Class (方法重写与顶层类)"></a>Part 3: Overriding &amp; Object Class (方法重写与顶层类)</h2><h3 id="3-1-Method-Overriding-方法重写规则"><a href="#3-1-Method-Overriding-方法重写规则" class="headerlink" title="3.1 Method Overriding (方法重写规则)"></a>3.1 Method Overriding (方法重写规则)</h3><ul>
+<li><strong>子类重写父类行为</strong>: 使用 <code>@Override</code> 标签。</li>
+<li><strong>权限限制</strong>: 重写后的方法访问权限<strong>不能比父类更严格</strong>（例如父类是 <code>public</code>，子类不能是 <code>private</code>）。</li>
+<li><code>super.methodName()</code>调用原版</li>
+<li><strong>不可重写的情况</strong>:<ul>
+<li><code>private</code> 成员（不可见）。</li>
+<li><code>final</code> 方法（禁止重写）。</li>
+<li><code>static</code> 方法（属于类，不参与多态重写）。</li>
+<li>构造器（Constructor）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-2-java-lang-Object-万类之祖"><a href="#3-2-java-lang-Object-万类之祖" class="headerlink" title="3.2 java.lang.Object (万类之祖)"></a>3.2 java.lang.Object (万类之祖)</h3><p>所有类隐式继承自 <code>Object</code>。常用方法需按需重写：</p>
+<ul>
+<li><strong><code>equals()</code></strong>: 默认比较内存地址（<code>==</code>），通常重写为比较内容。</li>
+<li><strong><code>toString()</code></strong>: 默认返回 <code>类名@哈希值</code>，建议重写以返回对象属性信息。</li>
+<li><strong><code>hashCode()</code></strong>: 返回对象的唯一 ID（通常基于内存地址）。</li>
+<li><strong><code>getClass()</code></strong>: 返回运行时的类对象。</li>
+</ul>
+<h2 id="Part-4-Memory-Life-Cycle-内存管理与生命周期"><a href="#Part-4-Memory-Life-Cycle-内存管理与生命周期" class="headerlink" title="Part 4: Memory &amp; Life Cycle (内存管理与生命周期)"></a>Part 4: Memory &amp; Life Cycle (内存管理与生命周期)</h2><h3 id="4-1-JVM-Memory-Structure"><a href="#4-1-JVM-Memory-Structure" class="headerlink" title="4.1 JVM Memory Structure"></a>4.1 JVM Memory Structure</h3><ul>
+<li><p>Running a Java program: Memory is obtained by the JVM, from the OS being used</p>
+</li>
+<li><p><strong>Stack (栈)</strong>: 存储局部变量 (Local variables) 和<strong>方法调用 (Stack frame)</strong></p>
+<ul>
+<li><p><strong>动作</strong>：每当一个方法被调用，它就会被“压入” (Push) 栈顶。</p>
+</li>
+<li><p><strong>Stack Frame (栈帧)</strong>：What actually is pushed onto the Stack, contains the state of the method：</p>
+<ul>
+<li><strong>局部变量 (Local variables)</strong>：values of all local variables</li>
+<li><strong>执行进度</strong>：which line of code is executing</li>
+</ul>
+</li>
+<li><p><strong>规则</strong>：</p>
+<ul>
+<li><strong>LIFO (后进先出)</strong>：Method goes on top of the Stack when it is called and stays in the Stack until it’s done</li>
+<li><strong>销毁</strong>：当方法运行到closing curly brace <code>}</code> 时，该栈帧会被“弹出” (Pop)，里面的局部变量瞬间消失。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Heap (堆)</strong>: 存储所有 对象 (Objects) 和 实例变量 (Instance variables)</p>
+<ul>
+<li>Life of Objects: depends only on the life of reference variables referring to it</li>
+<li>instance variables: live for as long as object they belong to live</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-2-Variable-Scope-Life-变量生命周期"><a href="#4-2-Variable-Scope-Life-变量生命周期" class="headerlink" title="4.2 Variable Scope &amp; Life (变量生命周期)"></a>4.2 Variable Scope &amp; Life (变量生命周期)</h3><ul>
+<li><p>类型</p>
+<ul>
+<li><p>基本类型 (primitive)</p>
+</li>
+<li><p><strong>Reference Variables</strong>: 变量在栈中存储的是“地址<strong>reference</strong>”，指向堆中的对象，而非真实的对象</p>
+</li>
+</ul>
+</li>
+<li><p>作用位置</p>
+<ul>
+<li><p><strong>Local Variables</strong>: 存活于<strong>所属方法在栈</strong>中的时间，临时</p>
+<ul>
+<li>Is in <strong>scope</strong> only within the method where it was declared.</li>
+<li>Is <strong>alive</strong> (and maintains its state) but is not in scope when its own method calls another.</li>
+<li>A variable can only be used when it is in scope</li>
+</ul>
+</li>
+<li><p><strong>Instance Variables</strong>: 存活于<strong>所属对象在堆中</strong>的时间</p>
+<p>第一阶段：在类内 (Inside the Class Body)</p>
+<ul>
+<li><strong>规则</strong>：只看 <strong>Scope</strong>。</li>
+<li><strong>表现</strong>：由于实例变量的作用域覆盖全类，你可以直呼其名。</li>
+<li><strong>修饰符</strong>：在这里毫无存在感（<code>private</code> 也能随便调）。</li>
+</ul>
+<p>第二阶段：在类外 (Outside the Class Body)</p>
+<ul>
+<li><strong>规则 1 (Scope)</strong>：变量名本身已失效（不可直呼其名）。</li>
+<li><strong>规则 2 (Path)</strong>：你必须通过 <code>对象.名</code> 提供路径。</li>
+<li><strong>规则 3 (Access)</strong>：<strong>权限修饰符开始接管。</strong><ul>
+<li>如果是 <code>public</code>：路径通了，门没锁 $\rightarrow$ <strong>访问成功</strong>。</li>
+<li>如果是 <code>private</code>：路径通了，但门锁了 $\rightarrow$ <strong>编译报错 (Access Error)</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>变量储存在哪里，生命周期<strong>只和作用位置有关</strong>！</p>
+<table>
+<thead>
+<tr>
+<th>存储位置</th>
+<th>对应的变量类型</th>
+<th>生命周期（何时 “死”）</th>
+<th>管理机制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Stack (栈)</strong></td>
+<td><strong>局部变量</strong> (Local Vars)</td>
+<td><strong>极短</strong>：随方法调用开始而生，随方法结束（<code>}</code>）立即消失。</td>
+<td><strong>自动管理</strong>：由 CPU 的栈指针控制，速度极快。</td>
+</tr>
+<tr>
+<td><strong>Heap (堆)</strong></td>
+<td><strong>对象</strong> (Objects) &amp; <strong>实例变量</strong></td>
+<td><strong>较长</strong>：只要还有 “引用” 指向它，它就活着。</td>
+<td><strong>垃圾回收 (GC)</strong>：由 JVM 扫描并清理，速度较慢。存储位置</td>
+</tr>
+</tbody></table>
+<p>A local variable that is a reference to an object goes on the Stack (the object it refers to still goes on the Heap)</p>
+</li>
+</ul>
+<h3 id="4-3-Garbage-Collection-垃圾回收-GC"><a href="#4-3-Garbage-Collection-垃圾回收-GC" class="headerlink" title="4.3 Garbage Collection (垃圾回收 GC)"></a>4.3 Garbage Collection (垃圾回收 GC)</h3><ul>
+<li><p>如何分配？Objects in Java are dynamically allocated and created on demand</p>
+<ul>
+<li>时间：memory space for an object is <strong>allocated at runtime</strong>, not at compile time</li>
+<li>触发：<strong>the new statement</strong> causes the memory for an object to be allocated</li>
+<li>问题The memory taken up by a program will grow (and shrink) as the program executes</li>
+</ul>
+</li>
+<li><p>只管引用变量，也就是new出来的对象，基本变量随着消失</p>
+</li>
+<li><p>回收<strong>触发条件</strong>: 当一个对象没有活着的引用（Live Reference）指向它时。</p>
+<ul>
+<li>引用超出作用域（Permanent exit scope）→局部引用变量</li>
+<li>引用被赋值给另一个对象</li>
+<li>引用被显式设为 <code>null</code><ul>
+<li>Unless initialised&#x2F;assigned to, <strong>instance reference variables</strong> have a default value of null</li>
+<li>If you use the dot operator on a null reference, you will get a NullPointerException error at runtime</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>你已急哭：If a program gets low on memory, the GC will destroy as many eligible objects as possible, to avoid the program running out of RAM</p>
+</li>
+<li><p><strong>Finalizer (析构)</strong>: <code>finalize()</code> 方法，用于对象销毁前的清理（不推荐依赖）</p>
+</li>
+<li><p>为什么要学stack&amp;heap</p>
+<ul>
+<li>variable scope;</li>
+<li>issues with creating objects;</li>
+<li>memory management (*);</li>
+<li>threads (**);</li>
+<li>exception handling</li>
+</ul>
+</li>
+</ul>
+<h2 id="Part-5-Constructors-Chaining-构造器与调用链"><a href="#Part-5-Constructors-Chaining-构造器与调用链" class="headerlink" title="Part 5: Constructors &amp; Chaining (构造器与调用链)"></a>Part 5: Constructors &amp; Chaining (构造器与调用链)</h2><h3 id="5-1-Constructor-Rules"><a href="#5-1-Constructor-Rules" class="headerlink" title="5.1 Constructor Rules"></a>5.1 Constructor Rules</h3><ul>
+<li><strong>作用：Initialization</strong></li>
+<li>规则：Programmers should always write a “no arguments” constructor</li>
+<li><strong>Default Constructor</strong>: 如果没写构造器，编译器自动补上无参构造器</li>
+<li><strong>Overloading</strong>: 构造器可以重载，但Must have different argument lists (it’s the variable <strong>type and order</strong> that matters)</li>
+</ul>
+<h3 id="5-2-Constructor-Chaining-构造器链"><a href="#5-2-Constructor-Chaining-构造器链" class="headerlink" title="5.2 Constructor Chaining (构造器链)"></a>5.2 Constructor Chaining (构造器链)</h3><ol>
+<li><p><strong><code>super()</code></strong>: 调用父类构造器。</p>
+<ul>
+<li><p>必须在构造器第一行。</p>
+</li>
+<li><p>如果没写，编译器默认调用父类的 <code>super()</code>→没构造器public ClassName() { super(); }</p>
+</li>
+<li><p>指定 pass arguments into a call to super(参数列表)</p>
+</li>
+<li><p>本质初始化父类空间</p>
+</li>
+</ul>
+</li>
+<li><p><strong><code>this()</code></strong>: 调用本类其他重载构造器。</p>
+<ul>
+<li><p>必须在构造器第一行。</p>
+</li>
+<li><p>从其他构造器接入super</p>
+</li>
+<li><p><code>super()</code> 和 <code>this()</code> <strong>不能同时出现在同一个构造器内</strong>。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="5-3-子类对象内存布局——分层结构"><a href="#5-3-子类对象内存布局——分层结构" class="headerlink" title="5.3 子类对象内存布局——分层结构"></a>5.3 子类对象内存布局——分层结构</h3><ul>
+<li><strong>物理事实</strong>：当你 <code>new</code> 一个 <code>SubClass</code> 对象时，triggers a chain reaction of constructors being run implicitly**（<strong>all the constructors in its inheritance tree must be run</strong>）**，内存中holds both its own <strong>declared instance variables</strong> and everything from its <strong>superclasses</strong></li>
+<li>Every class in Java extends class <em>Object</em> (java.lang.Object)</li>
+<li><strong>结论</strong>：An object is only completely formed when <strong>all the superclass parts of itself are formed</strong></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://hikawa00.top">浮熔游响红</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://hikawa00.top/2026/04/02/OO-TB2/">https://hikawa00.top/2026/04/02/OO-TB2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://hikawa00.top" target="_blank">hikawa00</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/OO/">OO</a><a class="post-meta__tags" href="/tags/java/">java</a></div><div class="post-share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240903090705.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/17/%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E7%AE%80%E8%AE%B0/" title="博客功能简记"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">博客功能简记</div></div><div class="info-2"><div class="info-item-1">博客核心功能实现原理记录一、 音乐播放系统：APlayer 与自动化歌单左下角的吸底播放器主要基于 hexo-tag-aplayer 插件实现，并通过主题配置将其注入页面。  注入机制：在页面底部注入 APlayer 容器。关键参数包括： data-fixed=&quot;true&quot;：使播放器固定在左下角悬浮。 no-destroy：配合 PJAX 局部刷新技术，确保在切换页面时音频播放不中断，容器不被销毁。   数据解析：播放器本身不存储音乐，而是依赖 Meting API。它作为一个中间件，根据提供的网易云歌单 ID，实时向音乐平台请求音频直链、封面图和歌词。 自动化更新：为了同步展示个人的“每周听歌排行”，00利用 GitHub Actions 设置了 Cron 定时任务。脚本会每天抓取最新数据，选择播放最多的10首歌放入歌单，从而确保时效性，同步听歌喜好和心情。  二、 右下角终端对话框：指令解析与 AI 交互右下角的终端窗口是一个通过原生 JavaScript 编写的交互组件。  命令处理系统：内置了一个指令解析器，通过匹配用户输入的字符串来执行不同函数。例如...</div></div></div></a><a class="pagination-related" href="/2026/03/18/3d-occ%E8%A7%86%E8%A7%89%E8%BE%93%E5%85%A5/" title="3d occ视觉输入"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">3d occ视觉输入</div></div><div class="info-2"><div class="info-item-1">OccLLaMA: An Occupancy-Language-Action Generative World Model for Autonomous Driving🎯 一、核心思想：为什么要用Occ做VLA的输入？1.1 现有方法的痛点论文开篇指出了当前MLLM（多模态大语言模型）在自动驾驶中的两大问题：    问题 表现 后果    缺乏世界模型 直接从感知映射到动作，不建模世界动态 无法理解“动作如何影响世界”，泛化能力差   视觉表示不合适 多用2D图像&#x2F;BEV，丢失3D几何信息 对高度、小物体、遮挡场景理解不足   1.2 OccLLaMA的解决方案核心思想：用3D语义占据（Semantic Occupancy）作为统一的视觉表示，构建一个能够同时理解、生成、规划的自回归世界模型。 三个关键创新：  场景Tokenizer：把稠密的3D Occ变成离散的“场景词” 统一多模态词表：把场景词、语言词、动作词放在同一个词表里 Next Token&#x2F;Scene Prediction：同时支持时序预测（语言&#x2F;动作）和空间预测（场景）  🏗️ ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/03/07/OO-TB1/" title="OO TB1"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-03-07</div><div class="info-item-2">OO TB1</div></div><div class="info-2"><div class="info-item-1">Week1History &amp; Basic  edit compile Load+Verify Execute   Common Problems  file name&#x3D;class name  compile：javac MyProgram.java  run：java MyProgram  Case sensitive    THREE Java comment formats:   &#x2F;&#x2F; single line comment  &#x2F;* many line comments, end with *&#x2F;   &#x2F;** * comments here go * in a javadoc file *&#x2F;    Define a class，main method (excuted first)    基础语法 Variables  ​	  Basic data types  byte &#x3D;&gt; short &#x3D;&gt; int &#x3D;&gt; long &#x3D;&gt; float ...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240903090705.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">浮熔游响红</div><div class="author-info-description">风来了—————</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/hikawa00"><i class="fab fa-github"></i><span>Nothing left but welcome</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到00的博客<br> 🚀 站点功能指南：<br>0. 首页照片墙可以点击单个图片放大——<br>1. 点击右下角终端，输入 /ai 即可对话赛博管家01<br>2. 左下角歌单自动同步00网易云的每周top10播放， 欢迎来听歌<br>3. 访问「访客墙」查看全站数字居民<br>🍵 既然来了，访客墙留个言再走吧~<br>温馨提示：遇到问题请优先刷新或者用🪜，玩的开心喵</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E8%A1%A5%E5%85%85"><span class="toc-number">1.</span> <span class="toc-text">一些补充</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Part-1-Class-Relationships-Inheritance-%E7%B1%BB%E5%85%B3%E7%B3%BB%E4%B8%8E%E7%BB%A7%E6%89%BF"><span class="toc-number">2.</span> <span class="toc-text">Part 1: Class Relationships &amp; Inheritance (类关系与继承)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E7%B1%BB%E4%B8%8E%E7%B1%BB%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">2.1.</span> <span class="toc-text">1.1 类与类之间的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-Access-Modifiers-%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6"><span class="toc-number">2.2.</span> <span class="toc-text">1.2 Access Modifiers (访问权限控制)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-Polymorphism-%E5%A4%9A%E6%80%81"><span class="toc-number">2.3.</span> <span class="toc-text">1.3 Polymorphism (多态)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Part-2-Abstract-Classes-Interfaces-%E6%8A%BD%E8%B1%A1%E7%B1%BB%E4%B8%8E%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.</span> <span class="toc-text">Part 2: Abstract Classes &amp; Interfaces (抽象类与接口)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-Abstract-Class-%E6%8A%BD%E8%B1%A1%E7%B1%BB"><span class="toc-number">3.1.</span> <span class="toc-text">2.1 Abstract Class (抽象类)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Interfaces-%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.2.</span> <span class="toc-text">2.2 Interfaces (接口)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%A0%B8%E5%BF%83%E5%AF%B9%E6%AF%94%EF%BC%9AAbstract-Class-vs-Interface"><span class="toc-number">3.3.</span> <span class="toc-text">2.3 核心对比：Abstract Class vs Interface</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Part-3-Overriding-Object-Class-%E6%96%B9%E6%B3%95%E9%87%8D%E5%86%99%E4%B8%8E%E9%A1%B6%E5%B1%82%E7%B1%BB"><span class="toc-number">4.</span> <span class="toc-text">Part 3: Overriding &amp; Object Class (方法重写与顶层类)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-Method-Overriding-%E6%96%B9%E6%B3%95%E9%87%8D%E5%86%99%E8%A7%84%E5%88%99"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 Method Overriding (方法重写规则)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-java-lang-Object-%E4%B8%87%E7%B1%BB%E4%B9%8B%E7%A5%96"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 java.lang.Object (万类之祖)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Part-4-Memory-Life-Cycle-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B8%8E%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">5.</span> <span class="toc-text">Part 4: Memory &amp; Life Cycle (内存管理与生命周期)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-JVM-Memory-Structure"><span class="toc-number">5.1.</span> <span class="toc-text">4.1 JVM Memory Structure</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-Variable-Scope-Life-%E5%8F%98%E9%87%8F%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">5.2.</span> <span class="toc-text">4.2 Variable Scope &amp; Life (变量生命周期)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-Garbage-Collection-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6-GC"><span class="toc-number">5.3.</span> <span class="toc-text">4.3 Garbage Collection (垃圾回收 GC)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Part-5-Constructors-Chaining-%E6%9E%84%E9%80%A0%E5%99%A8%E4%B8%8E%E8%B0%83%E7%94%A8%E9%93%BE"><span class="toc-number">6.</span> <span class="toc-text">Part 5: Constructors &amp; Chaining (构造器与调用链)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-Constructor-Rules"><span class="toc-number">6.1.</span> <span class="toc-text">5.1 Constructor Rules</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-Constructor-Chaining-%E6%9E%84%E9%80%A0%E5%99%A8%E9%93%BE"><span class="toc-number">6.2.</span> <span class="toc-text">5.2 Constructor Chaining (构造器链)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E5%AD%90%E7%B1%BB%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E2%80%94%E2%80%94%E5%88%86%E5%B1%82%E7%BB%93%E6%9E%84"><span class="toc-number">6.3.</span> <span class="toc-text">5.3 子类对象内存布局——分层结构</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/08/%E6%88%91%E7%9A%84%E7%8E%B0%E8%BA%AB%E4%BA%A6%E6%98%AF%E6%88%91%E7%9A%84%E9%80%83%E7%A6%BB/" title="我的现身亦是我的逃离">我的现身亦是我的逃离</a><time datetime="2026-06-08T11:31:11.000Z" title="发表于 2026-06-08 19:31:11">2026-06-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/05/19/guessNum/" title="guessNum">guessNum</a><time datetime="2026-05-18T16:04:41.000Z" title="发表于 2026-05-19 00:04:41">2026-05-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/05/17/%E5%BF%B8%E5%BF%B8%E8%96%AF%E6%9D%A1/" title="忸忸薯条">忸忸薯条</a><time datetime="2026-05-17T03:33:42.000Z" title="发表于 2026-05-17 11:33:42">2026-05-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/29/%E9%82%AE%E5%85%B5%E5%BF%AB%E8%B7%91/" title="邮兵快跑">邮兵快跑</a><time datetime="2026-04-29T15:46:08.000Z" title="发表于 2026-04-29 23:46:08">2026-04-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/22/%E5%A5%BD%E6%97%A0%E8%81%8A%E2%80%94%E2%80%94/" title="好无聊——">好无聊——</a><time datetime="2026-04-22T07:46:53.000Z" title="发表于 2026-04-22 15:46:53">2026-04-22</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed/img/bgim.png);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By 浮熔游响红</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div><div class="footer_custom_text"><div id="runtime_span" style="color: var(--font-color); font-weight: bold;"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script>var meting_api = 'https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&auth=:auth&r=:r';</script><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script><div class="aplayer no-destroy" data-id="17825584147" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="false"></div><script src="/js/runtime.js"></script><script src="/js/photo_wall.js"></script><script src="/js/terminal.js"></script><script src="/js/pinned-posts.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      false
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

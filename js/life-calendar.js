@@ -325,7 +325,8 @@
         return `<button type="button" data-life-action="reopen" data-item-id="${item.id}">恢复</button>${deleteButton}`;
       }
       if (item.status === 'pending' && Date.now() >= Date.parse(item.dueAt)) {
-        return `<button type="button" class="is-check" data-life-action="complete" data-item-id="${item.id}"><i class="fas fa-check"></i></button>
+        return `<button type="button" data-life-action="send-reminder" data-item-id="${item.id}" title="立即发送微信提醒" aria-label="立即发送微信提醒"><i class="fas fa-paper-plane"></i></button>
+          <button type="button" class="is-check" data-life-action="complete" data-item-id="${item.id}"><i class="fas fa-check"></i></button>
           <button type="button" class="is-cross" data-life-action="cancel" data-item-id="${item.id}"><i class="fas fa-times"></i></button>${deleteButton}`;
       }
       if (item.status === 'pending') {
@@ -638,6 +639,12 @@
           openDialog(dialogs['life-cancel-dialog']);
         } else if (action === 'edit-plan') openEntryForm(item);
         else if (action === 'edit-record') openEditRecordForm(item);
+        else if (action === 'send-reminder') {
+          if (!window.confirm('立即向已配置的微信发送这项计划的提醒吗？')) return;
+          await manage('sendWechatReminder', { itemId: item.id });
+          showToast('微信提醒已发送');
+          render();
+        }
         else if (action === 'reopen') {
           await manage('reopenPlan', { itemId: item.id });
           showToast('计划已恢复');

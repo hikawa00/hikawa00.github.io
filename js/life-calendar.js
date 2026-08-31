@@ -43,6 +43,12 @@
     return `${parts.hour}:${parts.minute}`;
   }
 
+  function shiftTime(value, minutes) {
+    const [hour, minute] = String(value || '00:00').split(':').map(Number);
+    const total = ((hour * 60 + minute + minutes) % 1440 + 1440) % 1440;
+    return `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;
+  }
+
   function parseDate(value) {
     const [year, month, day] = value.split('-').map(Number);
     return new Date(Date.UTC(year, month - 1, day));
@@ -484,6 +490,7 @@
       fillProjectSelect(form.elements.projectId, item?.projectId);
       form.elements.date.value = item?.plannedDate || selectedDate;
       form.elements.reminderTime.value = item?.reminderTime || currentTimeString();
+      syncTimeParts(form.elements.reminderTime.value);
       form.elements.minutes.value = item?.plannedMinutes || 30;
       form.elements.note.value = item?.note || '';
       updateEntryMode();
@@ -672,6 +679,47 @@
     root.querySelector('#life-entry-form').addEventListener('input', event => {
       if (event.target.name === 'date' || event.target.name === 'reminderTime') updateEntryMode();
     });
+
+    const timeEditor = root.querySelector('#life-entry-form .life-time-spinner');
+    const reminderTimeInput = timeEditor.querySelector('input[name="reminderTime"]');
+    const hourInput = timeEditor.querySelector('[data-time-part="hour"]');
+    const minuteInput = timeEditor.querySelector('[data-time-part="minute"]');
+
+    function syncTimeParts(value) {
+      const [hour, minute] = String(value || currentTimeString()).split(':');
+      hourInput.value = String(Number(hour)).padStart(2, '0');
+      minuteInput.value = String(Number(minute)).padStart(2, '0');
+    }
+
+    function syncReminderTime() {
+      const hour = Math.min(23, Math.max(0, Number(hourInput.value) || 0));
+      const minute = Math.min(59, Math.max(0, Number(minuteInput.value) || 0));
+      reminderTimeInput.value = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+      reminderTimeInput.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    timeEditor.addEventListener('input', event => {
+      if (event.target.classList.contains('life-time-part')) syncReminderTime();
+    });
+
+    timeEditor.addEventListener('change', event => {
+      if (!event.target.classList.contains('life-time-part')) return;
+      syncReminderTime();
+      syncTimeParts(reminderTimeInput.value);
+    });
+
+    timeEditor.addEventListener('wheel', event => {
+      const part = event.target.closest('.life-time-part');
+      if (!part) return;
+      event.preventDefault();
+      const direction = event.deltaY < 0 ? 1 : -1;
+      reminderTimeInput.value = shiftTime(
+        reminderTimeInput.value || currentTimeString(),
+        direction * (part.dataset.timePart === 'hour' ? 60 : 5)
+      );
+      syncTimeParts(reminderTimeInput.value);
+      reminderTimeInput.dispatchEvent(new Event('input', { bubbles: true }));
+    }, { passive: false });
 
     root.querySelector('#life-merge-project-list').addEventListener('change', event => {
       if (event.target.name === 'mergeProjectIds') updateMergePanel();

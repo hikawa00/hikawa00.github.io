@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240903090705.jpg">
 <meta property="article:published_time" content="2026-08-31T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-31T14:08:23.670Z">
+<meta property="article:modified_time" content="2026-08-31T16:25:36.875Z">
 <meta property="article:author" content="浮熔游响红">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240903090705.jpg"><script type="application/ld+json"></script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://hikawa00.top/life/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
@@ -255,7 +255,14 @@
       <label>项目<select name="projectId" required></select></label>
       <div class="life-form-row">
         <label>日期<input type="date" name="date" required></label>
-        <label>时间<input type="time" name="reminderTime" required></label>
+        <label>时间
+          <span class="life-time-spinner" title="点小时滚动 ±1 小时；点分钟滚动 ±5 分钟">
+            <input type="number" class="life-time-part" data-time-part="hour" min="0" max="23" inputmode="numeric" aria-label="小时">
+            <b>:</b>
+            <input type="number" class="life-time-part" data-time-part="minute" min="0" max="59" inputmode="numeric" aria-label="分钟">
+            <input type="hidden" name="reminderTime">
+          </span>
+        </label>
       </div>
       <label>分钟数<input type="number" name="minutes" min="1" max="1440" inputmode="numeric" required></label>
       <label>备注<textarea name="note" maxlength="500" rows="3" placeholder="今天做了些什么…"></textarea></label>

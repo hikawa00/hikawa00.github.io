@@ -692,14 +692,16 @@
     }
 
     function syncReminderTime() {
-      const hour = Math.min(23, Math.max(0, Number(hourInput.value) || 0));
-      const minute = Math.min(59, Math.max(0, Number(minuteInput.value) || 0));
+      const hour = Math.min(23, Math.max(0, Number(hourInput.value.replace(/\D/g, '')) || 0));
+      const minute = Math.min(59, Math.max(0, Number(minuteInput.value.replace(/\D/g, '')) || 0));
       reminderTimeInput.value = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
       reminderTimeInput.dispatchEvent(new Event('input', { bubbles: true }));
     }
 
     timeEditor.addEventListener('input', event => {
-      if (event.target.classList.contains('life-time-part')) syncReminderTime();
+      if (!event.target.classList.contains('life-time-part')) return;
+      event.target.value = event.target.value.replace(/\D/g, '').slice(0, 2);
+      syncReminderTime();
     });
 
     timeEditor.addEventListener('change', event => {

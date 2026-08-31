@@ -694,9 +694,10 @@
 }
 
 .life-time-spinner {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  display: flex;
   align-items: center;
+  width: 100%;
+  min-width: 0;
   gap: 7px;
 }
 
@@ -707,16 +708,12 @@
 }
 
 .life-time-spinner .life-time-part {
+  flex: 1 1 0;
+  width: 0;
   min-width: 0;
+  box-sizing: border-box;
   text-align: center;
   font-variant-numeric: tabular-nums;
-  appearance: textfield;
-}
-
-.life-time-spinner .life-time-part::-webkit-inner-spin-button,
-.life-time-spinner .life-time-part::-webkit-outer-spin-button {
-  margin: 0;
-  appearance: none;
 }
 
 .life-merge-projects-fieldset {

@@ -2,52 +2,6 @@
    Visitor Wall JS - 访客墙
    ============================================ */
 
-document.addEventListener('DOMContentLoaded', function() {
-  initVisitorWall();
-  setupPageChangeObserver();
-});
-
-// PJAX 切换页面后重新初始化
-document.addEventListener('pjax:complete', function() {
-  requestAnimationFrame(() => {
-    initVisitorWall();
-  });
-});
-
-// 页面可见性变化时检查是否需要初始化（处理 PJAX 切换后页面未初始化的情况）
-document.addEventListener('visibilitychange', function() {
-  if (document.visibilityState === 'visible') {
-    initVisitorWall();
-  }
-});
-
-// 使用 MutationObserver 监听页面变化，处理 PJAX 切换
-let pageObserver = null;
-
-function setupPageChangeObserver() {
-  if (pageObserver) return;
-
-  pageObserver = new MutationObserver((mutations) => {
-    for (const mutation of mutations) {
-      for (const node of mutation.addedNodes) {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          // 检查是否添加了访客墙容器
-          if (node.id === 'visitor-wall-container' || node.querySelector?.('#visitor-wall-container')) {
-            requestAnimationFrame(() => {
-              initVisitorWall();
-            });
-          }
-        }
-      }
-    }
-  });
-
-  pageObserver.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
-}
-
 function initVisitorWall() {
   const container = document.getElementById('visitor-wall-container');
   if (!container) return;
@@ -122,3 +76,5 @@ function escapeHtml(text) {
   div.textContent = text;
   return div.innerHTML;
 }
+
+window.BlogApp.register('visitorWall', initVisitorWall);

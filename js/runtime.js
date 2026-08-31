@@ -1,16 +1,27 @@
-function show_runtime() {
-  var startDate = new Date('03/01/2026 00:00:00');
-  var nowDate = new Date();
-  var t = nowDate.getTime() - startDate.getTime();
-  var i = 24 * 60 * 60 * 1000;
-  var d = Math.floor(t / i);
-  var h = Math.floor((t % i) / (60 * 60 * 1000));
-  var m = Math.floor((t % (60 * 60 * 1000)) / (60 * 1000));
-  var s = Math.floor((t % (60 * 1000)) / 1000);
-  var span = document.getElementById("runtime_span");
-  if (span) {
-    span.innerHTML = "本站已不间断运行 🚀 " + d + " 天 " + h + " 小时 " + m + " 分 " + s + " 秒";
+(function () {
+  const startDate = new Date('2026-03-01T00:00:00+08:00');
+  let timerId = null;
+
+  function updateRuntime() {
+    const elapsed = Math.max(0, Date.now() - startDate.getTime());
+    const day = 24 * 60 * 60 * 1000;
+    const hour = 60 * 60 * 1000;
+    const minute = 60 * 1000;
+    const days = Math.floor(elapsed / day);
+    const hours = Math.floor((elapsed % day) / hour);
+    const minutes = Math.floor((elapsed % hour) / minute);
+    const seconds = Math.floor((elapsed % minute) / 1000);
+    const span = document.getElementById('runtime_span');
+
+    if (span) {
+      span.textContent = `本站已不间断运行 🚀 ${days} 天 ${hours} 小时 ${minutes} 分 ${seconds} 秒`;
+    }
   }
-  setTimeout(show_runtime, 1000); // 性能更好的写法
-}
-show_runtime();
+
+  function initRuntime() {
+    updateRuntime();
+    if (timerId === null) timerId = window.setInterval(updateRuntime, 1000);
+  }
+
+  window.BlogApp.register('runtime', initRuntime);
+})();

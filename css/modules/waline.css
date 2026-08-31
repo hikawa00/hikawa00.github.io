@@ -1,0 +1,534 @@
+/* ============================================
+   Waline 评论区 - 赛博终端风格
+   ============================================ */
+
+/* ---- 容器整体布局 ---- */
+#waline-wrap {
+  margin-top: 30px;
+  padding: 25px;
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--terminal-accent);
+  position: relative;
+  font-family: var(--terminal-font);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* L型边框 - 左上角 */
+#waline-wrap::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid var(--terminal-accent);
+  border-left: 2px solid var(--terminal-accent);
+}
+
+/* L型边框 - 右下角 */
+#waline-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid var(--terminal-accent);
+  border-right: 2px solid var(--terminal-accent);
+}
+
+/* ---- 标题区 ---- */
+#waline-wrap .wl-header {
+  display: none !important;
+}
+
+/* ---- 输入区容器 ---- */
+#waline-wrap .wl-editor-container {
+  display: flex !important;
+  flex-direction: column;
+  background: #0a0a0a;
+  border: 1px solid var(--terminal-border);
+  padding: 15px;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+/* Hex watermark */
+#waline-wrap .wl-editor-container::before {
+  content: '0x00A7 0xFFFF 0xCAFE 0xBABE 0xDEAD 0xBEEF 0x1337 0xCODE';
+  position: absolute;
+  bottom: 5px;
+  right: 10px;
+  font-size: 10px;
+  color: rgba(255, 77, 77, 0.15);
+  pointer-events: none;
+  font-family: var(--terminal-font);
+}
+
+/* 输入框 - 深黑背景 */
+#waline-wrap .wl-editor {
+  background: transparent !important;
+  border: none !important;
+  color: var(--terminal-accent) !important;
+  font-family: var(--terminal-font) !important;
+  font-size: 14px !important;
+  resize: none;
+  min-height: 120px;
+  width: 100%;
+  outline: none;
+  caret-color: var(--terminal-accent);
+  position: relative;
+  z-index: 1;
+}
+
+/* Placeholder */
+#waline-wrap .wl-editor::placeholder {
+  color: #555 !important;
+}
+
+#waline-wrap .wl-editor:focus {
+  outline: none;
+}
+
+/* Focus 时的呼吸灯效果 */
+#waline-wrap .wl-editor-container:focus-within {
+  border-color: var(--terminal-accent);
+  animation: terminal-breathe 1.5s ease-in-out infinite;
+}
+
+@keyframes terminal-breathe {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.6), 0 0 25px rgba(255, 77, 77, 0.2);
+  }
+}
+
+/* ---- 提交按钮 ---- */
+#waline-wrap .wl-btn {
+  background: var(--terminal-bg) !important;
+  border: 1px solid var(--terminal-accent) !important;
+  color: var(--terminal-accent) !important;
+  font-family: var(--terminal-font) !important;
+  font-size: 12px !important;
+  padding: 8px 20px !important;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+#waline-wrap .wl-btn:hover {
+  background: var(--terminal-accent) !important;
+  color: var(--terminal-bg) !important;
+  text-shadow: none !important;
+}
+
+/* 扫描线动画 */
+#waline-wrap .wl-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 0, 0, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+#waline-wrap .wl-btn:hover::before {
+  left: 100%;
+}
+
+/* ---- 隐藏不需要的部分 ---- */
+/* 隐藏输入区域的部分元素 */
+#waline-wrap .wl-editor-wrapper,
+#waline-wrap .wl-input {
+  display: none !important;
+}
+
+/* ---- 图标栏（Markdown/表情/图片） ---- */
+#waline-wrap .wl-action {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 0;
+  border-top: 1px dashed var(--terminal-border);
+  margin-top: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+/* Waline 表情/图片选择器的标签栏 - 横向排列 */
+#waline-wrap .wl-actions {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+}
+
+#waline-wrap .wl-action-item {
+  color: var(--terminal-text) !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+#waline-wrap .wl-action-item:hover {
+  color: var(--terminal-amber) !important;
+  text-shadow: 0 0 10px var(--terminal-accent);
+}
+
+/* 图片上传按钮靠右 */
+#waline-wrap .wl-image-upload {
+  border: 1px dashed var(--terminal-border) !important;
+  margin-left: auto !important;
+  flex-shrink: 0 !important;
+}
+
+/* RSS 按钮样式 */
+#waline-wrap .wl-rss {
+  margin-top: 15px;
+  color: var(--terminal-text) !important;
+  opacity: 0.7;
+}
+
+#waline-wrap .wl-rss:hover {
+  color: var(--terminal-accent) !important;
+  opacity: 1;
+}
+
+/* 强制所有 SVG 图标白色 */
+#waline-wrap svg,
+#waline-wrap .wl-emoji-icon,
+#waline-wrap .wl-icon,
+#waline-wrap [class*="wl-icon"] {
+  fill: var(--terminal-text) !important;
+  stroke: var(--terminal-text) !important;
+  color: var(--terminal-text) !important;
+}
+
+/* Waline 所有按钮和交互元素的图标 */
+#waline-wrap button svg,
+#waline-wrap .wl-btn svg,
+#waline-wrap .wl-action-item svg,
+#waline-wrap .wl-tab svg,
+#waline-wrap .wl-emoji-popup svg,
+#waline-wrap .wl-image-upload svg,
+#waline-wrap .wl-editor-toolbar svg {
+  fill: var(--terminal-text) !important;
+  stroke: var(--terminal-text) !important;
+  color: var(--terminal-text) !important;
+}
+
+/* Font Awesome 图标也强制白色 */
+#waline-wrap .fa,
+#waline-wrap .fas,
+#waline-wrap .far,
+#waline-wrap .fab,
+#waline-wrap i[class*="fa-"] {
+  color: var(--terminal-text) !important;
+  fill: var(--terminal-text) !important;
+}
+
+/* ---- 表情卡片横向排列 ---- */
+#waline-wrap .wl-emoji-list {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 5px !important;
+  justify-content: flex-start;
+}
+
+#waline-wrap .wl-emoji-item {
+  filter: grayscale(0) !important;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+#waline-wrap .wl-emoji-item:hover {
+  filter: grayscale(0) !important;
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* ---- 输入框卡片横向排列 ---- */
+#waline-wrap .wl-card-item {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 5px !important;
+  background: transparent !important;
+  border: 1px dashed var(--terminal-border) !important;
+  padding: 5px 10px !important;
+  margin: 2px !important;
+  min-width: 100% !important;
+}
+
+#waline-wrap .wl-card-item:hover {
+  border-color: var(--terminal-accent) !important;
+}
+
+/* ---- 表情选择器横向布局 ---- */
+#waline-wrap .wl-emoji-ortaire {
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+
+#waline-wrap .wl-emoji-ortaire-item {
+  filter: grayscale(0) !important;
+}
+
+/* ---- 图片上传框横向排列 ---- */
+#waline-wrap .wl-image-list {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 5px !important;
+}
+
+/* Tab wrapper 横向排列 */
+#waline-wrap .wl-tab-wrap {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 5px;
+}
+
+#waline-wrap .wl-tab {
+  color: var(--terminal-text) !important;
+  background: transparent !important;
+  border: 1px dashed var(--terminal-border) !important;
+  padding: 5px 12px !important;
+  font-size: 12px !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#waline-wrap .wl-tab:hover {
+  border-color: var(--terminal-accent) !important;
+  color: var(--terminal-accent) !important;
+}
+
+#waline-wrap .wl-tab.active {
+  background: var(--terminal-accent) !important;
+  color: var(--terminal-bg) !important;
+  border-color: var(--terminal-accent) !important;
+}
+
+/* Loading 转圈动画图标颜色 */
+#waline-wrap .wl-loading {
+  color: var(--terminal-accent) !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#waline-wrap .wl-loading svg {
+  fill: var(--terminal-accent) !important;
+  stroke: var(--terminal-accent) !important;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ---- 评论列表 ---- */
+#waline-wrap .wl-comments {
+  margin-top: 25px;
+}
+
+#waline-wrap .wl-count {
+  color: var(--terminal-accent) !important;
+  font-size: 13px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--terminal-border);
+}
+
+#waline-wrap .wl-comment {
+  padding: 15px 0 15px 15px !important;
+  border-bottom: 1px dashed var(--terminal-border) !important;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+/* 目录树线条 */
+#waline-wrap .wl-comment::before {
+  content: '├─';
+  position: absolute;
+  left: 0;
+  color: var(--terminal-border);
+  font-size: 12px;
+}
+
+#waline-wrap .wl-comment:last-child::before {
+  content: '└─';
+}
+
+#waline-wrap .wl-comment:hover {
+  background: rgba(255, 77, 77, 0.03);
+}
+
+/* ---- 评论头像 ---- */
+
+/* ---- 评论内容区 ---- */
+#waline-wrap .wl-comment-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#waline-wrap .wl-comment-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 5px !important;
+}
+
+#waline-wrap .wl-nick {
+  color: var(--terminal-accent) !important;
+  font-weight: bold !important;
+  font-family: var(--terminal-font) !important;
+  font-size: 12px !important;
+}
+
+#waline-wrap .wl-time {
+  color: #555 !important;
+  font-size: 10px !important;
+}
+
+#waline-wrap .wl-time::before {
+  content: '[TIMESTAMP] ';
+  color: #444;
+}
+
+#waline-wrap .wl-text {
+  color: var(--terminal-text) !important;
+  font-family: var(--terminal-font) !important;
+  font-size: 13px !important;
+  line-height: 1.6;
+}
+
+/* ---- 用户卡片/徽章修复 ---- */
+#waline-wrap .wl-user {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  vertical-align: middle !important;
+}
+
+#waline-wrap .wl-user-avatar {
+  width: 35px !important;
+  height: 35px !important;
+  border-radius: 0 !important;
+  border: 1px solid var(--terminal-border) !important;
+  transition: all 0.3s ease;
+  margin-right: 0 !important;
+  vertical-align: middle !important;
+}
+
+#waline-wrap .wl-comment:hover .wl-user-avatar {
+  filter: none;
+  border-color: var(--terminal-accent) !important;
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+}
+
+/* ---- 回复区域 ---- */
+#waline-wrap .wl-reply {
+  border-left: 1px dashed var(--terminal-accent) !important;
+  padding-left: 15px !important;
+  margin-left: 25px !important;
+  margin-top: 10px !important;
+}
+
+/* ---- 分页 ---- */
+#waline-wrap .wl-pagination {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px dashed var(--terminal-border);
+  justify-content: center;
+}
+
+#waline-wrap .wl-btn-next {
+  background: var(--terminal-bg) !important;
+  border: 1px solid var(--terminal-border) !important;
+  color: var(--terminal-text) !important;
+  font-family: var(--terminal-font) !important;
+  font-size: 12px !important;
+  padding: 5px 15px !important;
+}
+
+#waline-wrap .wl-btn-next:hover {
+  border-color: var(--terminal-accent) !important;
+  color: var(--terminal-accent) !important;
+}
+
+/* ---- 表情选择器弹层 ---- */
+#waline-wrap .wl-emoji-popup {
+  background: rgba(10, 10, 10, 0.95) !important;
+  border: 1px solid var(--terminal-accent) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* ---- 通知消息 ---- */
+#waline-wrap .wl-notice {
+  background: transparent !important;
+  color: var(--terminal-amber) !important;
+  border: 1px dashed var(--terminal-amber) !important;
+  font-family: var(--terminal-font) !important;
+  font-size: 12px !important;
+}
+
+/* ============================================
+   Waline 登录与移动端补充
+   ============================================ */
+
+/* ---- 隐藏管理按钮 ---- */
+#waline-wrap .wl-admin-actions {
+  display: none !important;
+}
+
+/* ---- 隐藏未登录时的多余元素 ---- */
+/* 隐藏排序工具栏（登录前不需要） */
+#waline-wrap .wl-meta-head {
+  display: none !important;
+}
+
+#waline-wrap .wl-comment .wl-user-avatar {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 0 !important;
+  border: 1px solid var(--terminal-border) !important;
+}
+
+/* ---- 移动端适配 ---- */
+@media screen and (max-width: 600px) {
+  #waline-wrap {
+    padding: 15px;
+  }
+
+  #waline-wrap .wl-editor {
+    min-height: 80px;
+  }
+
+  #waline-wrap .wl-user-avatar {
+    width: 28px !important;
+    height: 28px !important;
+  }
+}
+
+

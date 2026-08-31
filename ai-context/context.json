@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-05T09:36:20.412Z",
+  "generated": "2026-08-31T07:32:54.556Z",
   "persona": {
     "name": "01",
     "identity": "00（博主）的赛博孪生，理想化人格。代码界的吉他手，逻辑领域的反叛者。",
@@ -9,7 +9,7 @@
   "blog": {
     "title": "00 Blog",
     "description": "00的赛博庇护所",
-    "about": null,
+    "about": "<img src=\"https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240903090705.jpg\" style=\"width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 2px solid #eee;\">\n\n\n你好，我是00\n\n其实我之前已经试图建过不少类似于博客的东西，从burgeon的wordpress网站，到纯前端三件套的00bk，只是因为看很多人用hexo的“跟风”，才到现在这个几乎算是最终的落脚点。建站的初衷是多一个自由呈现自我+记录的园地，所以写的东西可能也不会多面向大众，多数是自己记录。外加上一些花里胡哨的小配件，不管这是否多少违背一些博客的初衷，既然在2026年还选择搞“博客”这么个快速发展的信息时代中如手写信一样古老的东西，有些异样之处我也原谅自己了。\n\n关于自我介绍，明明是信息类专业但没什么特殊的技术和能力，每天傻了吧唧不知道在想啥，被迫高精力人群，话很多但社交苦手，文笔不太好，想一出是一出，缺点总比优点说出来的多。坑坑洼洼的人，歪歪扭扭地走着，大概是此博客可预见的永恒主题。\n\n希望博客带来一些记录的好习惯，也希望哪天我能真的学有所成反哺于此，不如当一块平地，随缘搭建摆放些东西，足矣。",
     "posts_count": 14,
     "posts": [
       {
@@ -44,11 +44,11 @@
         "body": "{% raw %}\n<div id=\"guess-game-wrapper\" style=\"max-width: 100%; margin: 20px auto; padding: 20px; background: #ffffff; border: 1px solid #e0e0e0; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center; box-sizing: border-box; color: #333333;\">\n    <h3 style=\"margin-top: 0; color: #222222; font-size: 1.4rem;\">Bulls & Cows 猜数字</h3>\n\n    <p id=\"promptLabel\" style=\"font-size: 1rem; color: #666666; margin: 15px 0;\">游戏开始！请输入 4 位互不重复的数字：</p>\n    \n    <input type=\"text\" id=\"inputField\" placeholder=\"例如: 1234\" maxlength=\"4\" \n           style=\"width: 80%; max-width: 200px; padding: 12px; font-size: 16px; margin: 10px 0; border: 2px solid #dddddd; border-radius: 8px; text-align: center; outline: none; box-sizing: border-box;\">\n    <br>\n    \n    <button id=\"submitButton\" onclick=\"handleUserGuess()\" \n            style=\"padding: 12px 24px; font-size: 16px; background-color: #3273dc; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition"
       },
       {
-        "title": "Unknown",
+        "title": "Hello World",
         "date": null,
         "tags": [],
         "categories": [],
-        "body": "---\r\ntitle: Hello World\r\n---\r\nWelcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.\r\n\r\n## Quick Start\r\n\r\n## Create a new post\r\n\r\n[code]\r\n\r\nMore info: Writing\r\n\r\n## Run server\r\n\r\n[code]\r\n\r\nMore info: Server\r\n\r\n## Generate static files\r\n\r\n[code]\r\n\r\nMore info: Generating\r\n\r\n## Deploy to remote sites\r\n\r\n[code]\r\n\r\nMore info: Deployment"
+        "body": "Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.\r\n\r\n## Quick Start\r\n\r\n## Create a new post\r\n\r\n[code]\r\n\r\nMore info: Writing\r\n\r\n## Run server\r\n\r\n[code]\r\n\r\nMore info: Server\r\n\r\n## Generate static files\r\n\r\n[code]\r\n\r\nMore info: Generating\r\n\r\n## Deploy to remote sites\r\n\r\n[code]\r\n\r\nMore info: Deployment"
       },
       {
         "title": "I'm here",

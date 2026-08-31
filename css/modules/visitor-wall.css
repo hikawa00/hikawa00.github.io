@@ -1,0 +1,190 @@
+/* ============================================
+   访客墙样式 - 红黑终端风格
+   ============================================ */
+#visitor-wall-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: var(--terminal-font);
+}
+
+/* 终端标题 */
+.terminal-title {
+  color: var(--terminal-accent) !important;
+  font-family: var(--terminal-font) !important;
+  font-size: 14px !important;
+  font-weight: normal !important;
+  margin: 30px 0 15px 0 !important;
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--terminal-border) !important;
+}
+
+.terminal-title::before {
+  content: '[ ';
+  color: var(--terminal-cyan);
+}
+
+.terminal-title::after {
+  content: ' ]';
+  color: var(--terminal-cyan);
+}
+
+/* ===== 头像池 ===== */
+.avatar-pool-wrapper {
+  margin-bottom: 40px;
+}
+
+#avatar-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 15px 0;
+}
+
+.visitor-avatar {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.visitor-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 1px dashed var(--terminal-border);
+  /* 默认灰度+红色滤镜 */
+  filter: grayscale(1) sepia(1) hue-rotate(-50deg) saturate(3);
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.visitor-avatar:hover img {
+  /* Hover 时恢复原色 */
+  filter: none;
+  transform: scale(1.1);
+  border-color: var(--terminal-accent);
+}
+
+/* 头像悬停昵称提示 */
+.visitor-avatar .avatar-tooltip {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--terminal-bg);
+  border: 1px dashed var(--terminal-accent);
+  padding: 2px 8px;
+  font-size: 11px;
+  color: var(--terminal-text);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.visitor-avatar:hover .avatar-tooltip {
+  opacity: 1;
+}
+
+/* ===== 留言流 ===== */
+.message-stream-wrapper {
+  margin-bottom: 40px;
+}
+
+#message-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.message-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px;
+  border: 1px dashed var(--terminal-border);
+  background: var(--terminal-bg);
+  transition: border-color 0.3s ease;
+}
+
+.message-item:hover {
+  border-color: var(--terminal-accent);
+}
+
+.message-avatar {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.message-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) sepia(1) hue-rotate(-50deg) saturate(3);
+  transition: filter 0.3s ease;
+}
+
+.message-item:hover .message-avatar img {
+  filter: none;
+}
+
+.message-content-wrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+.message-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.message-nick {
+  color: var(--terminal-accent);
+  font-size: 14px;
+}
+
+.message-date {
+  color: #666;
+  font-size: 11px;
+}
+
+.message-content {
+  color: var(--terminal-text);
+  font-size: 13px;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+/* 空状态提示 */
+.wall-empty {
+  color: #666;
+  font-size: 13px;
+  padding: 20px;
+  text-align: center;
+  border: 1px dashed var(--terminal-border);
+}
+
+/* 响应式 */
+@media screen and (max-width: 600px) {
+  .visitor-avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .message-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .message-avatar {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+

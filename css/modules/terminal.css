@@ -1,0 +1,253 @@
+/* ============================================
+   底部交互终端 - 三态布局
+   状态1: 展开（默认）- 输出区+输入行
+   状态2: 收起输出区（output-collapsed）- 只有输入行
+   状态3: 收起至右（collapsed-right）- 窄条，可竖向拖动
+   ============================================ */
+#terminal-input {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background: var(--terminal-bg);
+  border: 1px dashed var(--terminal-border);
+  font-family: var(--terminal-font);
+  z-index: 2000;
+  width: 400px;
+  max-height: 480px;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s, bottom 0.3s;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+/* ===== 顶部工具栏 ===== */
+#terminal-header {
+  display: flex;
+  align-items: center;
+  background: var(--terminal-bg);
+  border-bottom: 1px dashed var(--terminal-border);
+  flex-shrink: 0;
+  height: 36px;
+  cursor: grab;
+}
+
+#toggle-output-btn {
+  background: transparent;
+  border: none;
+  color: var(--terminal-text);
+  font-size: 12px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+#toggle-output-btn:hover {
+  background: var(--terminal-accent);
+  color: var(--terminal-bg);
+}
+
+#collapse-right-btn {
+  background: transparent;
+  border: none;
+  border-left: 1px dashed var(--terminal-border);
+  color: var(--terminal-text);
+  font-size: 14px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+#collapse-right-btn:hover {
+  background: var(--terminal-accent);
+  color: var(--terminal-bg);
+}
+
+#terminal-drag-handle {
+  flex: 1;
+  height: 100%;
+  display: none;
+  align-items: center;
+  padding-left: 10px;
+  color: var(--terminal-border);
+  font-size: 11px;
+  cursor: ns-resize;
+  user-select: none;
+}
+
+#terminal-drag-handle::before {
+  content: '⋮⋮';
+  letter-spacing: 2px;
+}
+
+/* ===== 输出区 ===== */
+#terminal-output {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 15px;
+  min-height: 80px;
+  font-size: 13px;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== 输入行 ===== */
+#terminal-input-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  border-top: 1px dashed var(--terminal-border);
+  flex-shrink: 0;
+}
+
+/* 输入行内的收起至右按钮 */
+#terminal-input-row #collapse-right-btn {
+  border-left: none;
+  border-top: none;
+  border-bottom: none;
+  border-right: 1px dashed var(--terminal-border);
+}
+
+/* ===== 状态2: 收起输出区 ===== */
+#terminal-input.output-collapsed #terminal-output {
+  display: none;
+}
+
+#terminal-input.output-collapsed #toggle-output-btn {
+  transform: rotate(180deg);
+}
+
+/* ===== 状态3: 收起至右 ===== */
+#terminal-input.collapsed-right {
+  width: 36px;
+  height: 36px !important;
+  max-height: 36px;
+  min-height: 0;
+  bottom: 0;
+  top: auto;
+  overflow: hidden;
+  border: 1px dashed var(--terminal-border);
+  border-right: none;
+  border-bottom: none;
+}
+
+#terminal-input.collapsed-right #terminal-header {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  border-bottom: none;
+  border-right: none;
+  height: 100%;
+  width: 100%;
+  cursor: ns-resize;
+  background: var(--terminal-bg);
+}
+
+/* 收起至右时，header里只显示拖动条+展开按钮 */
+#terminal-input.collapsed-right #toggle-output-btn,
+#terminal-input.collapsed-right #collapse-right-btn {
+  display: none;
+}
+
+#terminal-input.collapsed-right #terminal-drag-handle {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  writing-mode: vertical-rl;
+  padding: 4px 0;
+  font-size: 11px;
+  align-items: center;
+  justify-content: center;
+}
+
+#terminal-input.collapsed-right #terminal-output,
+#terminal-input.collapsed-right #terminal-input-row {
+  display: none;
+}
+
+/* ===== 路径提示符 ===== */
+#terminal-input .terminal-prompt-label {
+  color: var(--terminal-accent);
+  margin-right: 10px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ===== 输入框 ===== */
+#terminal-input input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--terminal-text);
+  font-family: var(--terminal-font);
+  font-size: 14px;
+  outline: none;
+  caret-color: var(--terminal-accent);
+  padding: 0;
+}
+
+#terminal-input input::placeholder {
+  color: #555;
+}
+
+.terminal-collapse-btn:hover {
+  background: var(--terminal-accent);
+  color: var(--terminal-bg);
+  border-color: var(--terminal-accent);
+}
+
+/* 命令行提示符 */
+.terminal-prompt {
+  color: var(--terminal-accent) !important;
+  font-family: var(--terminal-font) !important;
+  font-size: 14px !important;
+  margin-bottom: 10px !important;
+  padding: 10px 0;
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.terminal-prompt::before {
+  content: 'PS ' attr(data-path) '> ';
+  color: var(--terminal-accent);
+}
+
+/* --- 这里是你要的光标 --- */
+.terminal-prompt::after {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 1.2em;
+  background-color: var(--terminal-accent); /* 跟着主题色走 */
+  margin-left: 5px;
+  vertical-align: middle;
+  animation: terminal-cursor-blink 1s step-start infinite;
+}
+
+/* 闪烁动画定义 */
+@keyframes terminal-cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* 链接 */
+a {
+  color: var(--terminal-accent) !important;
+  text-decoration: none !important;
+}
+
+a:hover {
+  text-decoration: underline !important;
+  color: var(--terminal-amber) !important;
+}
+
+

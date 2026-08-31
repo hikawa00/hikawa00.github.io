@@ -1,4 +1,5 @@
-const initPhotoWall = () => {
+(function () {
+  const initPhotoWall = () => {
     const header = document.getElementById('page-header');
     if (header && header.classList.contains('full_page')) {
         if (document.querySelector('.photo-grid')) return;
@@ -6,10 +7,14 @@ const initPhotoWall = () => {
         const grid = document.createElement('div');
         grid.className = 'photo-grid';
         
-        // --- 核心修复：补上缺失的 baseCount 定义 ---
-        const baseCount = 28; // 每屏显示的基数 (7列 * 4行)
+        const rows = 4;
+        const columnsPerScreen = window.matchMedia('(max-width: 768px)').matches ? 3 : 7;
+        const baseCount = columnsPerScreen * rows;
         const baseUrl = "https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed@main/wall/";
         const myPhotoCount = 36; // 你实际上传的照片张数
+
+        grid.style.setProperty('--photo-columns', columnsPerScreen * 2);
+        grid.style.setProperty('--photo-tile-width', `calc(100vw / ${columnsPerScreen})`);
 
         // 循环生成两倍的图片实现无缝滚动
         // 核心：第一半 (0 ~ baseCount-1) 和第二半 (baseCount ~ baseCount*2-1) 必须显示完全相同的照片
@@ -20,9 +25,12 @@ const initPhotoWall = () => {
             const photoIndex = i < baseCount ? i : i - baseCount;
             const imgNumber = (photoIndex % myPhotoCount) + 1;
             img.src = `${baseUrl}${imgNumber}.jpg?v=1`;
-            
             img.className = 'photo-tile';
             img.draggable = false;
+            img.alt = '';
+            img.decoding = 'async';
+            img.loading = i < baseCount ? 'eager' : 'lazy';
+            img.fetchPriority = i < columnsPerScreen ? 'high' : 'low';
             
             // 点击逻辑
             img.addEventListener('click', function(e) {
@@ -40,7 +48,6 @@ const initPhotoWall = () => {
                 // 4. 给 header 加个类，用来显示文字
                 header.classList.add('header-show-text');
                 
-                console.log('大图已切换，文字已浮现');
             });
             grid.appendChild(img);
         }
@@ -64,7 +71,7 @@ const initPhotoWall = () => {
             }
         });
     }
-}
+  };
 
-document.addEventListener('DOMContentLoaded', initPhotoWall);
-document.addEventListener('pjax:complete', initPhotoWall);
+  window.BlogApp.register('photoWall', initPhotoWall);
+})();

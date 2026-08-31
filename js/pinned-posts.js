@@ -91,27 +91,5 @@
     });
   }
 
-  // 主入口
-  function init() {
-    renderPinnedPosts();
-  }
-
-  // DOM加载完成后执行
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-
-  // 监听 pjax 切换事件（Butterfly主题使用pjax）
-  document.addEventListener('pjax:complete', function() {
-    renderPinnedPosts();
-  });
-
-  // 也监听页面可见性变化（从文章页返回首页时）
-  document.addEventListener('visibilitychange', function() {
-    if (document.visibilityState === 'visible') {
-      renderPinnedPosts();
-    }
-  });
+  window.BlogApp.register('pinnedPosts', renderPinnedPosts);
 })();

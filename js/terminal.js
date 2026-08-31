@@ -2,19 +2,9 @@
    Terminal Style JS - Dragable & Cyber Red
    ============================================ */
 
-document.addEventListener('DOMContentLoaded', function() {
-  initTerminal();
-});
-
-// PJAX 切换页面后重新初始化 terminal prompt
-document.addEventListener('pjax:complete', function() {
-  addTerminalPrompt();
-});
-
 function initTerminal() {
   createTerminalInput();
   addTerminalPrompt();
-  disableHoverAnimation();
 }
 
 function createTerminalInput() {
@@ -572,8 +562,4 @@ function addTerminalPrompt() {
   container.insertBefore(prompt, container.firstChild);
 }
 
-function disableHoverAnimation() {
-  const style = document.createElement('style');
-  style.textContent = `.recent-post-item:hover { transform: none !important; }`;
-  document.head.appendChild(style);
-}
+window.BlogApp.register('terminal', initTerminal);

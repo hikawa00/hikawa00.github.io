@@ -1,0 +1,432 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>生活日历 | hikawa00</title><meta name="author" content="浮熔游响红"><meta name="copyright" content="浮熔游响红"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="&#x2F;&#x2F; LIFE_LOG       生活日历       一点一点，把真正生活过的时间留下来。                             正在读取生活记录…                                                                                          一二三四五六日">
+<meta property="og:type" content="website">
+<meta property="og:title" content="生活日历">
+<meta property="og:url" content="https://hikawa00.top/life/index.html">
+<meta property="og:site_name" content="hikawa00">
+<meta property="og:description" content="&#x2F;&#x2F; LIFE_LOG       生活日历       一点一点，把真正生活过的时间留下来。                             正在读取生活记录…                                                                                          一二三四五六日">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240903090705.jpg">
+<meta property="article:published_time" content="2026-08-31T04:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-31T14:08:23.670Z">
+<meta property="article:author" content="浮熔游响红">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240903090705.jpg"><script type="application/ld+json"></script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://hikawa00.top/life/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '生活日历',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'page'
+}</script><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/modules/terminal.css"><link rel="stylesheet" href="/css/modules/photo-wall.css"><link rel="stylesheet" href="/css/modules/visitor-wall.css"><link rel="stylesheet" href="/css/modules/waline.css"><link rel="stylesheet" href="/css/modules/pinned-posts.css"><link rel="stylesheet" href="/css/modules/life-calendar.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Caveat&family=Quicksand:wght@300;400&display=swap" rel="stylesheet"><meta name="generator" content="Hexo 8.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240903090705.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97/"><i class="fa-fw fas fa-laptop"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/visitors/"><i class="fa-fw fas fa-users"></i><span> 访客墙</span></a></div><div class="menus_item"><a class="site-page" href="/Me/"><i class="fa-fw fas fa-person"></i><span> 关于我</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">hikawa00</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97/"><i class="fa-fw fas fa-laptop"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/visitors/"><i class="fa-fw fas fa-users"></i><span> 访客墙</span></a></div><div class="menus_item"><a class="site-page" href="/Me/"><i class="fa-fw fas fa-person"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><h1 class="title-seo">生活日历</h1></header><main class="layout hide-aside" id="content-inner"><div id="page"><div class="page-title">生活日历</div><div class="container" id="article-container">
+<div id="life-dashboard" aria-live="polite">
+  <header class="life-page-header">
+    <div>
+      <span class="life-eyebrow">// LIFE_LOG</span>
+      <h2>生活日历</h2>
+      <p>一点一点，把真正生活过的时间留下来。</p>
+    </div>
+    <button type="button" class="life-icon-button" id="life-admin-toggle" title="管理生活日历" aria-label="管理生活日历">
+      <i class="fas fa-lock"></i>
+    </button>
+  </header>
+
+  <div class="life-loading" id="life-loading">正在读取生活记录…</div>
+  <div class="life-error" id="life-error" hidden></div>
+
+  <div class="life-dashboard-layout" id="life-content" hidden>
+    <main class="life-main-panel">
+      <section class="life-card life-calendar-card">
+        <div class="life-calendar-toolbar">
+          <button type="button" class="life-nav-button" data-calendar-nav="prev" aria-label="上个月"><i class="fas fa-chevron-left"></i></button>
+          <button type="button" class="life-month-label" id="life-month-label" title="回到本月"></button>
+          <button type="button" class="life-nav-button" data-calendar-nav="next" aria-label="下个月"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="life-weekdays" aria-hidden="true">
+          <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+        </div>
+        <div class="life-calendar-grid" id="life-calendar-grid"></div>
+      </section>
+
+      <section class="life-card life-day-card">
+        <div class="life-section-heading">
+          <div>
+            <span class="life-section-kicker">SELECTED_DAY</span>
+            <h3 id="life-selected-title"></h3>
+          </div>
+          <button type="button" class="life-primary-button life-admin-only" id="life-add-entry" hidden>
+            <i class="fas fa-plus"></i><span>添加</span>
+          </button>
+        </div>
+        <div id="life-day-detail"></div>
+      </section>
+
+    </main>
+
+    <aside class="life-card life-stats-panel">
+      <div class="life-section-heading life-stats-heading">
+        <div>
+          <span class="life-section-kicker">TIME_BOARD</span>
+          <h3>项目累计时长</h3>
+        </div>
+        <button type="button" class="life-icon-button life-admin-only" id="life-add-project" title="新增项目" aria-label="新增项目" hidden>
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+      <div class="life-period-tabs" id="life-period-tabs">
+        <button type="button" data-period="week">周</button>
+        <button type="button" data-period="month" class="active">月</button>
+        <button type="button" data-period="year">年</button>
+        <button type="button" data-period="all">总计</button>
+      </div>
+      <div class="life-period-caption" id="life-period-caption"></div>
+      <div class="life-total-time" id="life-total-time"></div>
+      <div class="life-project-ranking" id="life-project-ranking"></div>
+      <section class="life-plan-summary life-plan-summary-inline">
+        <div class="life-section-heading">
+          <div>
+            <span class="life-section-kicker">PLAN_REVIEW</span>
+            <h3 id="life-plan-summary-title">计划复盘</h3>
+          </div>
+        </div>
+        <div class="life-plan-metrics" id="life-plan-metrics"></div>
+      </section>
+    </aside>
+  </div>
+
+  <div class="life-toast" id="life-toast" role="status"></div>
+
+  <dialog class="life-dialog" id="life-unlock-dialog">
+    <form method="dialog" id="life-unlock-form">
+      <button type="button" class="life-dialog-close" data-close-dialog aria-label="关闭">×</button>
+      <span class="life-section-kicker">OWNER_MODE</span>
+      <h3>解锁管理模式</h3>
+      <label>管理密匙<input type="password" name="key" autocomplete="current-password" required></label>
+      <p class="life-form-hint">密匙只保存在当前标签页，关闭后自动退出。</p>
+      <button type="submit" class="life-primary-button">解锁</button>
+    </form>
+  </dialog>
+
+  <dialog class="life-dialog" id="life-project-dialog">
+    <form method="dialog" id="life-project-form">
+      <button type="button" class="life-dialog-close" data-close-dialog aria-label="关闭">×</button>
+      <span class="life-section-kicker">NEW_PROJECT</span>
+      <h3>新增项目</h3>
+      <div class="life-form-row">
+        <label class="life-emoji-field">Emoji
+          <span class="life-emoji-picker"><input type="text" name="emoji" maxlength="12" placeholder="🎹" required><button type="button" class="life-emoji-trigger" aria-label="打开全部 Emoji" aria-expanded="false">▾</button></span>
+        </label>
+        <label>项目名称<input type="text" name="name" maxlength="20" placeholder="练琴" required></label>
+      </div>
+      <button type="submit" class="life-primary-button">创建项目</button>
+    </form>
+  </dialog>
+
+  <dialog class="life-dialog" id="life-entry-dialog">
+    <form method="dialog" id="life-entry-form">
+      <button type="button" class="life-dialog-close" data-close-dialog aria-label="关闭">×</button>
+      <span class="life-section-kicker">ADD_LIFE</span>
+      <h3 id="life-entry-form-title">添加记录</h3>
+      <label>项目<select name="projectId" required></select></label>
+      <div class="life-form-row">
+        <label>日期<input type="date" name="date" required></label>
+        <label>时间<input type="time" name="reminderTime" required></label>
+      </div>
+      <label>分钟数<input type="number" name="minutes" min="1" max="1440" inputmode="numeric" required></label>
+      <label>备注<textarea name="note" maxlength="500" rows="3" placeholder="今天做了些什么…"></textarea></label>
+      <div class="life-entry-mode" id="life-entry-mode"></div>
+      <button type="submit" class="life-primary-button">保存</button>
+    </form>
+  </dialog>
+
+  <dialog class="life-dialog" id="life-complete-dialog">
+    <form method="dialog" id="life-complete-form">
+      <button type="button" class="life-dialog-close" data-close-dialog aria-label="关闭">×</button>
+      <span class="life-section-kicker">CHECK_IN</span>
+      <h3>完成计划</h3>
+      <input type="hidden" name="itemId">
+      <label>实际完成日期<input type="date" name="actualDate" required></label>
+      <label>实际分钟数<input type="number" name="actualMinutes" min="1" max="1440" inputmode="numeric" required></label>
+      <label>备注<textarea name="note" maxlength="500" rows="3"></textarea></label>
+      <button type="submit" class="life-primary-button">确认完成</button>
+    </form>
+  </dialog>
+
+  <dialog class="life-dialog" id="life-cancel-dialog">
+    <form method="dialog" id="life-cancel-form">
+      <button type="button" class="life-dialog-close" data-close-dialog aria-label="关闭">×</button>
+      <span class="life-section-kicker">SKIP_PLAN</span>
+      <h3>放弃这项计划？</h3>
+      <input type="hidden" name="itemId">
+      <label>原因（可选）<textarea name="cancelReason" maxlength="200" rows="3" placeholder="临时有事、状态不好…"></textarea></label>
+      <button type="submit" class="life-danger-button">确认放弃</button>
+    </form>
+  </dialog>
+
+  <dialog class="life-dialog" id="life-edit-record-dialog">
+    <form method="dialog" id="life-edit-record-form">
+      <button type="button" class="life-dialog-close" data-close-dialog aria-label="关闭">×</button>
+      <span class="life-section-kicker">EDIT_LOG</span>
+      <h3>修改记录</h3>
+      <input type="hidden" name="itemId">
+      <label>实际日期<input type="date" name="actualDate" required></label>
+      <label>实际分钟数<input type="number" name="actualMinutes" min="1" max="1440" inputmode="numeric" required></label>
+      <label>备注<textarea name="note" maxlength="500" rows="3"></textarea></label>
+      <button type="submit" class="life-primary-button">保存修改</button>
+    </form>
+  </dialog>
+
+  <dialog class="life-dialog" id="life-delete-project-dialog">
+    <form method="dialog" id="life-delete-project-form">
+      <button type="button" class="life-dialog-close" data-close-dialog aria-label="关闭">×</button>
+      <span class="life-section-kicker">DELETE_PROJECT</span>
+      <h3>删除项目</h3>
+      <input type="hidden" name="projectId">
+      <p class="life-delete-warning" id="life-delete-project-message"></p>
+      <label>再次输入管理密匙<input type="password" name="confirmKey" autocomplete="current-password" required></label>
+      <p class="life-form-hint">项目、历史记录和未来计划会一并永久删除，无法恢复。</p>
+      <button type="submit" class="life-danger-button">永久删除</button>
+    </form>
+  </dialog>
+
+  <dialog class="life-dialog life-project-editor" id="life-edit-project-dialog">
+    <form method="dialog" id="life-edit-project-form">
+      <button type="button" class="life-dialog-close" data-close-dialog aria-label="关闭">×</button>
+      <span class="life-section-kicker">EDIT_PROJECT</span>
+      <h3 id="life-edit-project-title">编辑项目</h3>
+      <input type="hidden" name="projectId">
+      <div class="life-form-row" id="life-current-project-fields">
+        <label class="life-emoji-field">Emoji
+          <span class="life-emoji-picker"><input type="text" name="emoji" maxlength="12" required><button type="button" class="life-emoji-trigger" aria-label="打开全部 Emoji" aria-expanded="false">▾</button></span>
+        </label>
+        <label>项目名称<input type="text" name="name" maxlength="20" required></label>
+      </div>
+      <fieldset class="life-merge-projects-fieldset">
+        <legend>合并其他项目（可多选）</legend>
+        <div class="life-merge-project-list" id="life-merge-project-list"></div>
+      </fieldset>
+      <div class="life-merge-panel" id="life-merge-panel" hidden>
+        <p>这些项目合并到哪里？</p>
+        <label class="life-radio-option"><input type="radio" name="destinationType" value="existing" checked><span>并入其中一个项目</span></label>
+        <label class="life-merge-destination">保留项目<select name="destinationProjectId"></select></label>
+        <label class="life-radio-option"><input type="radio" name="destinationType" value="new"><span>新建一个项目</span></label>
+        <div class="life-new-project-fields" id="life-new-project-fields" hidden>
+          <div class="life-form-row">
+            <label class="life-emoji-field">Emoji
+              <span class="life-emoji-picker"><input type="text" name="newEmoji" maxlength="12"><button type="button" class="life-emoji-trigger" aria-label="打开全部 Emoji" aria-expanded="false">▾</button></span>
+            </label>
+            <label>新项目名称<input type="text" name="newName" maxlength="20" placeholder="学习"></label>
+          </div>
+        </div>
+        <small>所选项目的历史记录、计划和累计时长都会汇总到目标项目。</small>
+      </div>
+      <button type="submit" class="life-primary-button" id="life-project-save-button">保存修改</button>
+      <div class="life-project-danger-zone">
+        <span>不再需要这个项目？</span>
+        <button type="button" id="life-edit-project-delete">删除项目</button>
+      </div>
+    </form>
+  </dialog>
+</div>
+
+</div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By 浮熔游响红</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div><div class="footer_custom_text"><div id="runtime_span" style="color: var(--font-color); font-weight: bold;"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><script>var meting_api = 'https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&auth=:auth&r=:r';</script><div class="aplayer no-destroy" data-id="17825584147" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="false"></div><script src="/js/site.js"></script><script src="/js/runtime.js"></script><script src="/js/photo_wall.js"></script><script src="/js/terminal.js"></script><script src="/js/pinned-posts.js"></script><script src="/js/life-calendar.js"></script><script src="/js/visitors.js"></script><script src="/js/visitor-comments.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/metingjs/dist/Meting.min.js"></script><script>(() => {
+  const destroyAplayer = () => {
+    if (window.aplayers) {
+      for (let i = 0; i < window.aplayers.length; i++) {
+        if (!window.aplayers[i].options.fixed) {
+          window.aplayers[i].destroy()
+        }
+      }
+    }
+  }
+
+  const runMetingJS = () => {
+    typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+  }
+
+  btf.addGlobalFn('pjaxSend', destroyAplayer, 'destroyAplayer')
+  btf.addGlobalFn('pjaxComplete', loadMeting, 'runMetingJS')
+})()</script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      false
+        ? pjax.loadUrl('/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

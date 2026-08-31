@@ -128,6 +128,51 @@
   line-clamp: 3;
 }
 
+#pinned-posts-container .pinned-life-note {
+  background: linear-gradient(135deg, #e8fff5 0%, #ccefe1 100%);
+}
+
+#pinned-posts-container .pinned-life-note .pinned-post-title {
+  margin-bottom: 3px;
+}
+
+#pinned-posts-container .pinned-life-active,
+#pinned-posts-container .pinned-life-time,
+#pinned-posts-container .pinned-life-emoji {
+  display: block;
+  color: #4c665d;
+  text-align: center;
+  line-height: 1.25;
+}
+
+#pinned-posts-container .pinned-life-active {
+  font-size: 11px;
+}
+
+#pinned-posts-container .pinned-life-active b {
+  color: #1b7760;
+  font-size: 16px;
+}
+
+#pinned-posts-container .pinned-life-time {
+  margin-top: 1px;
+  font-size: 9px;
+}
+
+#pinned-posts-container .pinned-life-emoji {
+  min-height: 18px;
+  margin-top: 5px;
+  overflow: hidden;
+  font-family: system-ui, sans-serif;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#pinned-posts-container .pinned-life-note.is-loading .pinned-life-active {
+  opacity: 0.55;
+}
+
 /* 暗色模式适配 */
 [data-theme="dark"] #pinned-posts-container .pinned-post-item {
   background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
@@ -142,6 +187,20 @@
 
 [data-theme="dark"] #pinned-posts-container .pinned-post-summary {
   color: #888;
+}
+
+[data-theme="dark"] #pinned-posts-container .pinned-life-note {
+  background: linear-gradient(135deg, #18312a 0%, #12231f 100%);
+}
+
+[data-theme="dark"] #pinned-posts-container .pinned-life-active,
+[data-theme="dark"] #pinned-posts-container .pinned-life-time,
+[data-theme="dark"] #pinned-posts-container .pinned-life-emoji {
+  color: #8db9aa;
+}
+
+[data-theme="dark"] #pinned-posts-container .pinned-life-active b {
+  color: #72d6b7;
 }
 
 

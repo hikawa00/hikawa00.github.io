@@ -3,6 +3,13 @@
  * 所有组件只向 BlogApp 注册初始化函数，由这里统一响应首次加载和 PJAX。
  */
 (function () {
+  const isLocalPreview = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+  window.BlogConfig = Object.freeze({
+    apiBase: isLocalPreview
+      ? 'http://127.0.0.1:8787'
+      : 'https://mange-blog-ai.furongyouxianghong.workers.dev'
+  });
+
   const initializers = new Map();
   let domReady = document.readyState !== 'loading';
 

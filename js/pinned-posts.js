@@ -11,6 +11,12 @@
       title: 'guessNum',
       link: '/2026/05/19/guessNum/',
       summary: 'Bulls & Cows 猜数字游戏'
+    },
+    {
+      title: '生活记录',
+      link: '/life/',
+      summary: '',
+      type: 'life'
     }
     // 在这里添加更多置顶文章：
     // { title: '文章标题', link: '/2026/01/01/article/', summary: '一句话简介' }
@@ -24,6 +30,61 @@
   // 获取置顶文章的标准化链接集合
   const pinnedLinks = new Set(PINNED_POSTS.map(p => normalizeLink(p.link)));
 
+  function formatDuration(minutes) {
+    const value = Math.max(0, Number(minutes) || 0);
+    const hours = Math.floor(value / 60);
+    const rest = value % 60;
+    if (!hours) return `${rest} 分钟`;
+    if (!rest) return `${hours} 小时`;
+    return `${hours}小时${rest}分`;
+  }
+
+  function currentShanghaiMonth() {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit'
+    }).formatToParts(new Date()).reduce((result, part) => {
+      result[part.type] = part.value;
+      return result;
+    }, {});
+    return `${parts.year}-${parts.month}`;
+  }
+
+  async function hydrateLifeNote() {
+    const note = document.querySelector('.pinned-post-item[data-pinned-type="life"]');
+    if (!note) return;
+    try {
+      const response = await fetch(`${window.BlogConfig?.apiBase || ''}/api/life`, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const state = await response.json();
+      const month = currentShanghaiMonth();
+      const actualItems = (state.items || []).filter(item =>
+        (item.status === 'record' || item.status === 'completed') && item.actualDate?.startsWith(month)
+      );
+      const activeDays = new Set(actualItems.map(item => item.actualDate)).size;
+      const total = actualItems.reduce((sum, item) => sum + Number(item.actualMinutes || 0), 0);
+      const projectTotals = new Map();
+      actualItems.forEach(item => {
+        projectTotals.set(item.projectId, (projectTotals.get(item.projectId) || 0) + Number(item.actualMinutes || 0));
+      });
+      const emoji = (state.projects || [])
+        .map(project => ({ emoji: project.emoji, minutes: projectTotals.get(project.id) || 0 }))
+        .filter(project => project.minutes > 0)
+        .sort((a, b) => b.minutes - a.minutes)
+        .slice(0, 5)
+        .map(project => project.emoji)
+        .join(' ');
+      note.querySelector('.pinned-life-active').innerHTML = `本月活跃 <b>${activeDays}</b> 天`;
+      note.querySelector('.pinned-life-time').textContent = `累计 ${formatDuration(total)}`;
+      note.querySelector('.pinned-life-emoji').textContent = emoji || '这个月还没留下足迹';
+      note.classList.remove('is-loading');
+    } catch (error) {
+      note.querySelector('.pinned-life-active').textContent = '生活日历';
+      note.querySelector('.pinned-life-time').textContent = '点击查看记录';
+      note.querySelector('.pinned-life-emoji').textContent = '';
+      note.classList.remove('is-loading');
+    }
+  }
+
   // 渲染函数
   function renderPinnedPosts() {
     // 检查是否有置顶文章
@@ -34,9 +95,13 @@
 
     // 生成HTML
     const postsHTML = PINNED_POSTS.map(post => `
-      <a href="${post.link}" class="pinned-post-item" title="${post.summary}">
+      <a href="${post.link}" class="pinned-post-item${post.type === 'life' ? ' pinned-life-note is-loading' : ''}" title="${post.summary || post.title}"${post.type ? ` data-pinned-type="${post.type}"` : ''}>
         <span class="pinned-post-title">${post.title}</span>
-        <span class="pinned-post-summary">${post.summary}</span>
+        ${post.type === 'life' ? `
+          <span class="pinned-life-active">读取本月记录…</span>
+          <span class="pinned-life-time"></span>
+          <span class="pinned-life-emoji"></span>
+        ` : `<span class="pinned-post-summary">${post.summary}</span>`}
         <div class="pinned-post-pin"></div>
       </a>
     `).join('');
@@ -89,6 +154,8 @@
         }
       }
     });
+
+    hydrateLifeNote();
   }
 
   window.BlogApp.register('pinnedPosts', renderPinnedPosts);

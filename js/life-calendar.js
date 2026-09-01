@@ -698,6 +698,10 @@
       reminderTimeInput.dispatchEvent(new Event('input', { bubbles: true }));
     }
 
+    reminderTimeInput.addEventListener('input', () => {
+      if (reminderTimeInput.value) syncTimeParts(reminderTimeInput.value);
+    });
+
     timeEditor.addEventListener('input', event => {
       if (!event.target.classList.contains('life-time-part')) return;
       event.target.value = event.target.value.replace(/\D/g, '').slice(0, 2);

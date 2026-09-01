@@ -40,6 +40,12 @@ function createTerminalInput() {
   const dragHandle = document.createElement('div');
   dragHandle.id = 'terminal-drag-handle';
 
+  // 手机首次打开时默认收起；桌面端保持展开。
+  if (window.matchMedia('(max-width: 600px)').matches) {
+    terminal.classList.add('collapsed-right');
+    dragHandle.style.display = 'flex';
+  }
+
   // 输出区
   const outputArea = document.createElement('div');
   outputArea.id = 'terminal-output';

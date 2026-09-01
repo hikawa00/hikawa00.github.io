@@ -749,12 +749,16 @@
 }
 
 .life-time-spinner .life-time-part {
-  flex: 1 1 0;
-  width: 0;
-  min-width: 0;
+  flex: 1 1 54px;
+  width: auto;
+  min-width: 44px;
   box-sizing: border-box;
   text-align: center;
   font-variant-numeric: tabular-nums;
+}
+
+.life-time-spinner .life-time-native {
+  display: none;
 }
 
 .life-time-step {
@@ -784,8 +788,17 @@
 }
 
 @media (max-width: 600px) {
-  .life-time-step {
-    display: flex;
+  .life-time-spinner > .life-time-step,
+  .life-time-spinner > .life-time-part,
+  .life-time-spinner > b {
+    display: none;
+  }
+
+  .life-time-spinner .life-time-native {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    color-scheme: dark;
   }
 }
 

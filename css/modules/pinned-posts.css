@@ -51,6 +51,18 @@
   cursor: pointer;
 }
 
+@media (max-width: 600px) {
+  #pinned-posts-container .pinned-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  #pinned-posts-container .pinned-post-item {
+    width: auto;
+    height: 130px;
+  }
+}
+
 #pinned-posts-container .pinned-post-item:nth-child(even) {
   transform: rotate(1deg);
   background: linear-gradient(135deg, #e6f3ff 0%, #cce5ff 100%);

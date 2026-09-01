@@ -723,6 +723,20 @@
       reminderTimeInput.dispatchEvent(new Event('input', { bubbles: true }));
     }, { passive: false });
 
+    timeEditor.addEventListener('click', event => {
+      const stepButton = event.target.closest('.life-time-step');
+      if (!stepButton) return;
+      const step = Number(stepButton.dataset.timeStep);
+      const part = stepButton.dataset.timePart;
+      const minutes = step === 1 && part === 'hour' ? 60 : (step === -1 && part === 'hour' ? -60 : (step === 1 ? 5 : -5));
+      reminderTimeInput.value = shiftTime(
+        reminderTimeInput.value || currentTimeString(),
+        minutes
+      );
+      syncTimeParts(reminderTimeInput.value);
+      reminderTimeInput.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
     root.querySelector('#life-merge-project-list').addEventListener('change', event => {
       if (event.target.name === 'mergeProjectIds') updateMergePanel();
     });

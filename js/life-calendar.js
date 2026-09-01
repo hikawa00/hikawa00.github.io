@@ -682,8 +682,8 @@
 
     const timeEditor = root.querySelector('#life-entry-form .life-time-spinner');
     const reminderTimeInput = timeEditor.querySelector('input[name="reminderTime"]');
-    const hourInput = timeEditor.querySelector('[data-time-part="hour"]');
-    const minuteInput = timeEditor.querySelector('[data-time-part="minute"]');
+    const hourInput = timeEditor.querySelector('input.life-time-part[data-time-part="hour"]');
+    const minuteInput = timeEditor.querySelector('input.life-time-part[data-time-part="minute"]');
 
     function syncTimeParts(value) {
       const [hour, minute] = String(value || currentTimeString()).split(':');

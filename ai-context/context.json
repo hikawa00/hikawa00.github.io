@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-01T08:36:48.029Z",
+  "generated": "2026-09-03T07:15:08.480Z",
   "persona": {
     "name": "01",
     "identity": "00（博主）的赛博孪生，理想化人格。代码界的吉他手，逻辑领域的反叛者。",
@@ -10,7 +10,7 @@
     "title": "00 Blog",
     "description": "00的赛博庇护所",
     "about": "<img src=\"https://cdn.jsdelivr.net/gh/hikawa00/typora-img-bed/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20240903090705.jpg\" style=\"width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 2px solid #eee;\">\n\n\n你好，我是00\n\n其实我之前已经试图建过不少类似于博客的东西，从burgeon的wordpress网站，到纯前端三件套的00bk，只是因为看很多人用hexo的“跟风”，才到现在这个几乎算是最终的落脚点。建站的初衷是多一个自由呈现自我+记录的园地，所以写的东西可能也不会多面向大众，多数是自己记录。外加上一些花里胡哨的小配件，不管这是否多少违背一些博客的初衷，既然在2026年还选择搞“博客”这么个快速发展的信息时代中如手写信一样古老的东西，有些异样之处我也原谅自己了。\n\n关于自我介绍，明明是信息类专业但没什么特殊的技术和能力，每天傻了吧唧不知道在想啥，被迫高精力人群，话很多但社交苦手，文笔不太好，想一出是一出，缺点总比优点说出来的多。坑坑洼洼的人，歪歪扭扭地走着，大概是此博客可预见的永恒主题。\n\n希望博客带来一些记录的好习惯，也希望哪天我能真的学有所成反哺于此，不如当一块平地，随缘搭建摆放些东西，足矣。",
-    "posts_count": 14,
+    "posts_count": 15,
     "posts": [
       {
         "title": "3d occ视觉输入",
@@ -76,6 +76,13 @@
           "study"
         ],
         "body": "## 一些补充\n\n- ArrayList\n\n  - 调用：\n\n  !image-20260402130952536\n\n  - 泛型定义 (Parameterized)：[code]（注意尖括号的使用）。\n  - 常用方法表：\n    - [code]: 末尾添加。\n    - [code] 或 [code]: 删除。\n    - [code]: 返回布尔值，查是否存在。\n    - [code]: 查找元素位置。\n    - [code]: 判断是否为空。\n  - 核心区别：[code] 是动态扩容的，而 [code] 是固定长度的。\n\n- Design Process … taking inheritance into account\n\n  - Look for objects that have common attributes and behaviours.\n\n  - Design the class (superclass) that represents the common state and behaviour.\n\n  - Decide if a subclass needs behaviours (methods implementation) that are specific to that particular subclass type\n\n  - Look for more opportunities to use abstraction, by finding two or more subclasses that might need common behaviour.\n\n  - Finish the class hierarchy\n\n## Part 1: Class Relationships & Inheritance (类关系与继承)\n\n## 1.1 类与类之间的关系\n\n- Aggregation (Has-a) / 聚合: Objects are instance variables in the class\n- Inheritance (Is-a) / 继承: Subclasses inherit the properties (attributes and operations) of their superclass\n  "
+      },
+      {
+        "title": "动手学深度学习：线性神经网络",
+        "date": "2026-09-03 12:23:50",
+        "tags": [],
+        "categories": [],
+        "body": ">开个新坑，虽然之前大概扫过一遍但是几乎是没学懂的，这次再回锅肉一下，主要是写得好理解一些方便自己记忆理解\n\n## 3 线性神经网络\n\n## 线性回归\n\n1. 要素\n\n   - 要求什么？线性模型：权重w+偏置b -> $y =w^{⊤}x+b$\n   - 怎么监督？损失函数：量化目标的实际值与预测值之间的差距\n     - 损失函数为什么通常使用均方误差：根据极大似然估计法，参数w和b的最优值是使整个数据集的似然最大的值。在高斯噪声的假设下，最小化均方误差等价于对线性模型的极大似然估计\n   - 一步到位？解析解：$w^∗ =(X^⊤X)^{−1}X^⊤y$ 只有简单模型才有\n   - 求解过程？随机梯度下降：小批量的平均损失关于模型参数的导数（梯度）将梯度乘以一个预先确定的正数η，并从当前参数的值中减掉\n     - 初始化参数\n     - 重复以下训练，直到完成\n       - 计算梯度g←$∂_{(w,b)} \\frac{1}{|B|} \\sum_{i∈B}l(x^{(i)},y^{(i)},w,b)$\n       - 更新参数$(w,b)←(w,b)−ηg$\n   - 学习后做什么？预测\n\n2. 简洁实现\n\n   - 生成数据集：[code] features是X，labels是已经加过噪声的y\n\n   - 读取数据集：\n\n     [code]\n\n   - 定义模型\n\n     - 在PyTorch中，全连接层在Linear类中定义。值得注意的是，我们将两个参数传递到nn.Linear中。第一个指定输入特征形状，即2，第二个指定输出特征形状，输出特征形状为单个标量，因此为1。\n     - 我们首先定义一个模型变量net，它是一个Sequential类的实例。Sequential类将多 个层串联在一起。当给定输入数据时，Sequential实例将数据传入到第一层，然后将第一层的输出作为第二层的输入，以此类推。在下面的例子中，我们的模型只包含一个层，因此实际上不需要Sequential。但是由 于以后几乎所有的模型都是多层的，在这里使用Sequential会让你熟悉“标准的流水线”。\n\n         [code]\n\n   - 初始化模型参数：通过net[0]选择网络中的第一个图层，然后使用weight.data和bias.data方法访问参数（不"
       },
       {
         "title": "博客功能简记",

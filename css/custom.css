@@ -9,6 +9,17 @@
 
 :root {
   --terminal-font: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  --terminal-bg: #ffffff;
+  --terminal-text: #2b2b2b;
+  --terminal-accent: #d9363e;
+  --terminal-border: #d9363e;
+  --cursor-blink: #d9363e;
+  --terminal-cyan: #00a2e2;
+  --terminal-amber: #b36b00;
+  --terminal-green: #188038;
+}
+
+[data-theme='dark'] {
   --terminal-bg: #000000;
   --terminal-text: #ffffff;
   --terminal-accent: #ff4d4d;
@@ -266,10 +277,29 @@ body {
 /* ============================================
    文章内容页
    ============================================ */
-#post{
-    border: 1px dashed var(--terminal-border) !important;
+#post {
+  background: var(--terminal-bg) !important;
+  color: var(--terminal-text) !important;
+  border: 1px dashed var(--terminal-border) !important;
 }
 .post-content,
 .article-text {
   font-family: var(--terminal-font) !important;
+}
+
+#article-container,
+#article-container p,
+#article-container li,
+#article-container h1,
+#article-container h2,
+#article-container h3,
+#article-container h4,
+#article-container h5,
+#article-container h6 {
+  color: var(--terminal-text);
+}
+
+#article-container a,
+#article-container strong {
+  color: var(--terminal-accent);
 }

@@ -8,6 +8,11 @@
   // 格式：{ title: '标题', link: '/文章路径/', summary: '一句话简介' }
   const PINNED_POSTS = [
     {
+      title: '同词相遇',
+      link: 'https://samewordgame.hikawa00.top/',
+      summary: '在线双人联想词游戏：词不一样？加练一轮！'
+    },
+    {
       title: 'guessNum',
       link: '/2026/05/19/guessNum/',
       summary: 'Bulls & Cows 猜数字游戏'
@@ -17,6 +22,12 @@
       link: '/life/',
       summary: '',
       type: 'life'
+    },
+    {
+      title: '小鱼游过的路',
+      link: '/fish/',
+      summary: '看看小鱼最近游了多远',
+      type: 'fish'
     }
     // 在这里添加更多置顶文章：
     // { title: '文章标题', link: '/2026/01/01/article/', summary: '一句话简介' }
@@ -47,6 +58,70 @@
       return result;
     }, {});
     return `${parts.year}-${parts.month}`;
+  }
+
+  function currentShanghaiDate() {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit'
+    }).formatToParts(new Date()).reduce((result, part) => {
+      result[part.type] = part.value;
+      return result;
+    }, {});
+    return new Date(Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day)));
+  }
+
+  function shanghaiDateKey(date) {
+    return date.getUTCFullYear() + '-' + String(date.getUTCMonth() + 1).padStart(2, '0') + '-' +
+      String(date.getUTCDate()).padStart(2, '0');
+  }
+
+  function formatFishDistance(meters) {
+    const value = Number(meters) || 0;
+    return value >= 1000 ? (value / 1000).toFixed(2) + ' 千米' : value.toFixed(1) + ' 米';
+  }
+
+  async function hydrateFishNote() {
+    const note = document.querySelector('.pinned-post-item[data-pinned-type="fish"]');
+    if (!note) return;
+    const values = note.querySelectorAll('.pinned-fish-stats b');
+    try {
+      const response = await fetch(`${window.BlogConfig?.apiBase || ''}/api/fish/sessions`, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const payload = await response.json();
+      const sessions = Array.isArray(payload.sessions) ? payload.sessions : [];
+      const daily = new Map();
+      let total = 0;
+      sessions.forEach(session => {
+        total += Number(session.distanceMeters) || 0;
+        Object.entries(session.dailyMeters || {}).forEach(([date, meters]) => {
+          daily.set(date, (daily.get(date) || 0) + (Number(meters) || 0));
+        });
+      });
+      const today = currentShanghaiDate();
+      const todayKey = shanghaiDateKey(today);
+      const weekStart = new Date(today);
+      weekStart.setUTCDate(weekStart.getUTCDate() - ((weekStart.getUTCDay() + 6) % 7));
+      const monthStart = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1));
+      const sumDays = start => {
+        let sum = 0;
+        for (let date = start; date <= today; date.setUTCDate(date.getUTCDate() + 1)) {
+          sum += daily.get(shanghaiDateKey(date)) || 0;
+        }
+        return sum;
+      };
+      [daily.get(todayKey) || 0, sumDays(weekStart), sumDays(monthStart), total].forEach((meters, index) => {
+        values[index].textContent = sessions.length ? formatFishDistance(meters) : '— 米';
+      });
+      const syncTime = payload.updatedAt
+        ? new Intl.DateTimeFormat('zh-CN', {
+          timeZone: 'Asia/Shanghai', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+        }).format(new Date(payload.updatedAt))
+        : '未同步';
+      note.querySelector('.pinned-fish-sync').textContent = `最近同步：${syncTime}`;
+    } catch (error) {
+      note.querySelector('.pinned-fish-sync').textContent = '最近同步：未同步';
+      values.forEach(value => { value.textContent = '— 米'; });
+    }
   }
 
   async function hydrateLifeNote() {
@@ -95,13 +170,30 @@
 
     // 生成HTML
     const postsHTML = PINNED_POSTS.map(post => `
-      <a href="${post.link}" class="pinned-post-item${post.type === 'life' ? ' pinned-life-note is-loading' : ''}" title="${post.summary || post.title}"${post.type ? ` data-pinned-type="${post.type}"` : ''}>
-        <span class="pinned-post-title">${post.title}</span>
-        ${post.type === 'life' ? `
+      <a href="${post.link}" class="pinned-post-item${post.type === 'life' ? ' pinned-life-note is-loading' : post.type === 'fish' ? ' pinned-fish-note' : ''}" title="${post.summary || post.title}"${post.type ? ` data-pinned-type="${post.type}"` : ''}>
+        ${post.type === 'fish' ? `
+          <span class="pinned-fish-head">
+            <img src="/images/fish-mascot.png" alt="" loading="lazy">
+            <span class="pinned-fish-copy">
+              <span class="pinned-post-title">${post.title}</span>
+              <span class="pinned-fish-sync">最近同步：尚未同步</span>
+            </span>
+          </span>
+          <span class="pinned-fish-stats">
+            <span><small>今天</small><b>— 米</b></span>
+            <span><small>本周</small><b>— 米</b></span>
+            <span><small>本月</small><b>— 米</b></span>
+            <span><small>累计</small><b>— 米</b></span>
+          </span>
+        ` : post.type === 'life' ? `
+          <span class="pinned-post-title">${post.title}</span>
           <span class="pinned-life-active">读取本月记录…</span>
           <span class="pinned-life-time"></span>
           <span class="pinned-life-emoji"></span>
-        ` : `<span class="pinned-post-summary">${post.summary}</span>`}
+        ` : `
+          <span class="pinned-post-title">${post.title}</span>
+          <span class="pinned-post-summary">${post.summary}</span>
+        `}
         <div class="pinned-post-pin"></div>
       </a>
     `).join('');
@@ -156,6 +248,7 @@
     });
 
     hydrateLifeNote();
+    hydrateFishNote();
   }
 
   window.BlogApp.register('pinnedPosts', renderPinnedPosts);

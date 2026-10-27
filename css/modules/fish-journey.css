@@ -1,0 +1,172 @@
+/* 小鱼旅程 -------------------------------------------------------------- */
+#nav .menus_item > a[href="/fish/"], #sidebar-menus .menus_item > a[href="/fish/"] { display: none !important; }
+
+#page:has(#fish-journey) {
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+#page:has(#fish-journey) .page-title { display: none; }
+
+#fish-journey {
+  --fish-card: rgba(24, 29, 38, .96);
+  --fish-card-soft: rgba(255, 255, 255, .035);
+  --fish-line: rgba(255, 255, 255, .1);
+  --fish-text: #edf1f7;
+  --fish-muted: #929eae;
+  --fish-cyan: #75d6d0;
+  --fish-amber: #f0b35a;
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  color: var(--fish-text);
+  font-family: var(--terminal-font, "Consolas", monospace);
+}
+
+#fish-journey *, #fish-journey *::before, #fish-journey *::after { box-sizing: border-box; }
+#fish-journey [hidden] { display: none !important; }
+#fish-journey button { font: inherit; color: inherit; }
+
+.fish-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 22px);
+  min-height: 108px;
+  margin-bottom: 10px;
+  padding: 10px clamp(15px, 2.5vw, 24px);
+  overflow: hidden;
+  border: 1px solid var(--fish-line);
+  border-radius: 17px;
+  background: radial-gradient(circle at 12% 50%, rgba(81, 120, 230, .2), transparent 24%), linear-gradient(120deg, rgba(19, 25, 35, .98), rgba(32, 27, 36, .95));
+  box-shadow: 0 16px 42px rgba(0, 0, 0, .2);
+}
+.fish-hero-art {
+  position: relative;
+  display: grid;
+  flex: 0 0 clamp(72px, 9vw, 88px);
+  width: clamp(72px, 9vw, 88px);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid rgba(117, 214, 208, .2);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(117, 214, 208, .13), rgba(91, 104, 194, .1) 55%, transparent 72%);
+  animation: fish-hero-float 4s ease-in-out infinite;
+}
+.fish-hero-art::after {
+  position: absolute;
+  right: 7%;
+  bottom: 14%;
+  width: 13px;
+  height: 13px;
+  border: 1px solid rgba(117, 214, 208, .55);
+  border-radius: 50%;
+  content: "";
+  box-shadow: -17px 8px 0 -4px rgba(117, 214, 208, .2);
+}
+.fish-hero-art img { width: 84%; height: 84%; object-fit: contain; filter: drop-shadow(0 7px 10px rgba(79, 107, 227, .28)); }
+.fish-hero-copy { min-width: 0; }
+.fish-section-kicker { color: var(--fish-cyan); font-size: 10px; letter-spacing: .17em; }
+.fish-hero-copy h2 { margin: 2px 0 7px; color: var(--fish-text); font-size: clamp(21px, 2.6vw, 28px); letter-spacing: .04em; }
+.fish-sync-line { margin: 0; color: var(--fish-muted); font-size: 12px; }
+.fish-sync-line i { margin-right: 6px; color: var(--fish-cyan); }
+.fish-sync-line strong { color: var(--fish-text); font-weight: 500; }
+
+.fish-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 10px; }
+.fish-stat-card { position: relative; display: flex; min-height: 76px; flex-direction: column; justify-content: center; gap: 6px; padding: 10px 14px; overflow: hidden; border: 1px solid var(--fish-line); border-radius: 12px; background: var(--fish-card); box-shadow: 0 7px 18px rgba(0, 0, 0, .1); }
+.fish-stat-card::after { position: absolute; right: -21px; bottom: -35px; width: 70px; height: 70px; border: 1px solid currentColor; border-radius: 50%; content: ""; opacity: .08; }
+.fish-stat-today { color: var(--fish-cyan); }
+.fish-stat-week { color: #9bafff; }
+.fish-stat-month { color: var(--fish-amber); }
+.fish-stat-total { color: #e7a1d1; }
+.fish-stat-label { color: var(--fish-muted); font-size: 10px; }
+.fish-stat-card strong { color: var(--fish-text); font-size: clamp(19px, 2.3vw, 25px); font-weight: 600; line-height: 1; white-space: nowrap; }
+.fish-stat-card strong small { color: var(--fish-muted); font-size: 10px; font-weight: 400; }
+
+.fish-details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.fish-panel { min-width: 0; padding: 15px; border: 1px solid var(--fish-line); border-radius: 13px; background: var(--fish-card); box-shadow: 0 9px 23px rgba(0, 0, 0, .12); }
+.fish-panel-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; margin-bottom: 17px; }
+.fish-panel-heading h3 { margin: 4px 0 2px; color: var(--fish-text); font-size: 15px; letter-spacing: .04em; }
+.fish-panel-heading p { margin: 0; color: var(--fish-muted); font-size: 11px; }
+.fish-trend-heading { align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+.fish-trend-controls { display: grid; justify-items: end; gap: 6px; }
+.fish-period-tabs { display: flex; padding: 2px; border: 1px solid var(--fish-line); border-radius: 8px; background: rgba(0, 0, 0, .12); }
+.fish-period-tabs button { min-width: 34px; padding: 6px 9px; border: 0; border-radius: 6px; color: var(--fish-muted); background: transparent; cursor: pointer; font-size: 11px; }
+.fish-period-tabs button.active { color: #102322; background: var(--fish-cyan); font-weight: 700; }
+.fish-date-stepper { display: flex; align-items: center; gap: 4px; color: var(--fish-muted); font-size: 9px; white-space: nowrap; }
+.fish-date-stepper button { display: grid; width: 22px; height: 22px; place-items: center; padding: 0; border: 1px solid var(--fish-line); border-radius: 6px; color: var(--fish-cyan); background: rgba(255, 255, 255, .03); cursor: pointer; font-size: 16px; line-height: 1; }
+.fish-date-stepper button:disabled { opacity: .35; cursor: default; }
+
+.fish-chart { display: grid; min-height: 164px; grid-template-columns: repeat(7, minmax(0, 1fr)); align-items: end; gap: 5px; padding: 10px 3px 0; border-bottom: 1px solid var(--fish-line); }
+.fish-bar-col { display: flex; min-width: 0; height: 100%; flex-direction: column; align-items: center; justify-content: flex-end; gap: 8px; }
+.fish-bar-value { color: var(--fish-muted); font-size: 9px; white-space: nowrap; }
+.fish-bar-track { display: flex; width: min(100%, 28px); height: 110px; align-items: flex-end; overflow: hidden; border-radius: 7px 7px 3px 3px; background: rgba(255, 255, 255, .035); }
+.fish-bar { width: 100%; min-height: 4px; border-radius: 7px 7px 2px 2px; background: linear-gradient(180deg, var(--fish-cyan), #557be5); box-shadow: 0 0 18px rgba(117, 214, 208, .14); transition: height .35s ease; }
+.fish-bar-label { max-width: 100%; padding-bottom: 8px; overflow: hidden; color: var(--fish-muted); font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+
+.fish-heat-panel { grid-column: auto; }
+.fish-heat-legend { display: flex; align-items: center; gap: 4px; color: var(--fish-muted); font-size: 9px; white-space: nowrap; }
+.fish-heat-legend i, .fish-heat-legend b { width: 10px; height: 10px; border: 1px solid rgba(117, 214, 208, .15); border-radius: 3px; background: rgba(117, 214, 208, .08); }
+.fish-heat-legend b:nth-of-type(1), .fish-heatmap .level-1 { background: rgba(117, 214, 208, .25); }
+.fish-heat-legend b:nth-of-type(2), .fish-heatmap .level-2 { background: rgba(117, 214, 208, .48); }
+.fish-heat-legend b:nth-of-type(3), .fish-heatmap .level-3 { background: rgba(117, 214, 208, .72); }
+.fish-heat-legend i:last-child, .fish-heatmap .level-4 { background: var(--fish-cyan); }
+.fish-heatmap-scroll { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; scrollbar-color: rgba(117, 214, 208, .45) rgba(255, 255, 255, .04); }
+.fish-heatmap { display: grid; width: 100%; min-width: 363px; grid-template: repeat(3, 38px) / repeat(10, minmax(30px, 1fr)); grid-auto-flow: column; gap: 7px; padding: 2px 1px 8px; }
+.fish-heatmap-cell { display: grid; min-height: 38px; place-items: center; border: 1px solid rgba(117, 214, 208, .1); border-radius: 8px; color: rgba(237, 241, 247, .68); background: rgba(117, 214, 208, .035); font-family: inherit; font-size: 11px; cursor: pointer; transition: transform .15s ease, border-color .15s ease; }
+.fish-heatmap-cell:hover { transform: scale(1.08); border-color: rgba(117, 214, 208, .5); }
+.fish-heatmap .level-0 { background: rgba(117, 214, 208, .035); }
+
+.fish-recent-panel, .fish-achievements-panel { min-height: 255px; }
+.fish-count-pill { padding: 5px 8px; border: 1px solid var(--fish-line); border-radius: 99px; color: var(--fish-muted); font-size: 9px; white-space: nowrap; }
+.fish-date-picker { display: flex; align-items: center; gap: 6px; color: var(--fish-muted); font-size: 9px; }
+.fish-date-picker input { max-width: 132px; padding: 5px 6px; border: 1px solid var(--fish-line); border-radius: 7px; color: var(--fish-text); background: rgba(0, 0, 0, .16); color-scheme: dark; font: inherit; }
+.fish-session-list { display: grid; gap: 0; }
+.fish-session-empty { margin: 14px 0; color: var(--fish-muted); font-size: 11px; }
+.fish-session-row { display: grid; width: 100%; grid-template-columns: 10px minmax(0, 1fr) auto; align-items: center; gap: 11px; padding: 10px 0; border: 0; border-bottom: 1px solid rgba(255, 255, 255, .06); text-align: left; background: transparent; cursor: pointer; }
+.fish-session-row:last-child { border-bottom: 0; }
+.fish-session-row:hover .fish-session-main strong { color: var(--fish-cyan); }
+.fish-session-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--fish-cyan); box-shadow: 0 0 10px rgba(117, 214, 208, .5); }
+.fish-session-main { display: grid; gap: 4px; min-width: 0; }
+.fish-session-main strong { color: var(--fish-text); font-size: 11px; font-weight: 500; }
+.fish-session-main small { overflow: hidden; color: var(--fish-muted); font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.fish-session-row > b { color: var(--fish-amber); font-size: 12px; font-weight: 500; white-space: nowrap; }
+
+.fish-achievements { display: grid; max-height: 227px; gap: 7px; overflow-y: auto; padding-right: 3px; scrollbar-width: thin; scrollbar-color: rgba(117, 214, 208, .35) transparent; }
+.fish-achievement { display: grid; grid-template-columns: 33px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 10px; border: 1px solid var(--fish-line); border-radius: 10px; background: var(--fish-card-soft); }
+.fish-achievement-icon { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 9px; background: rgba(117, 214, 208, .09); font-size: 16px; }
+.fish-achievement > div { display: grid; gap: 4px; min-width: 0; }
+#fish-journey .fish-achievement strong { color: var(--fish-text); font-size: 12px; font-weight: 700; }
+.fish-achievement small { color: var(--fish-muted); font-size: 9px; }
+.fish-achievement > b { color: var(--fish-cyan); font-size: 9px; font-weight: 500; }
+.fish-achievement:not(.is-earned) > b { color: var(--fish-amber); }
+.fish-session-dialog { position: relative; width: min(420px, calc(100vw - 32px)); padding: 24px; border: 1px solid rgba(117, 214, 208, .3); border-radius: 15px; color: var(--fish-text); background: #171c25; box-shadow: 0 20px 70px rgba(0, 0, 0, .5); }
+.fish-session-dialog::backdrop { background: rgba(0, 0, 0, .65); backdrop-filter: blur(3px); }
+.fish-session-dialog h3 { margin: 6px 0 18px; color: var(--fish-text); }
+.fish-dialog-close { position: absolute; top: 9px; right: 12px; border: 0; color: var(--fish-muted); background: transparent; cursor: pointer; font-size: 24px; }
+.fish-session-detail { display: grid; gap: 9px; }
+.fish-session-detail div { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--fish-line); color: var(--fish-muted); font-size: 12px; }
+.fish-session-detail strong { color: var(--fish-text); font-weight: 500; }
+
+@keyframes fish-hero-float { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-5px) rotate(1deg); } }
+
+@media (max-width: 760px) {
+  .fish-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fish-details { grid-template-columns: 1fr; }
+  .fish-stat-card { min-height: 68px; padding: 10px 12px; }
+  .fish-chart { gap: 5px; }
+  .fish-bar-value { font-size: 8px; }
+}
+@media (max-width: 460px) {
+  .fish-hero { min-height: 88px; gap: 11px; padding: 9px 12px; }
+  .fish-hero-art { flex-basis: 62px; width: 62px; }
+  .fish-hero-copy h2 { margin: 2px 0 6px; font-size: 19px; }
+  .fish-sync-line { font-size: 10px; }
+  .fish-panel { padding: 15px; }
+  .fish-panel-heading h3 { font-size: 15px; }
+  .fish-trend-controls { justify-items: start; }
+  .fish-heatmap { min-width: 345px; grid-template-rows: repeat(3, 34px); gap: 5px; }
+  .fish-heatmap-cell { min-height: 34px; border-radius: 7px; font-size: 10px; }
+  .fish-heat-legend { gap: 2px; font-size: 8px; }
+  .fish-heat-legend i, .fish-heat-legend b { width: 8px; height: 8px; }
+}
